@@ -29,7 +29,19 @@ namespace UniProject.Server
             Console.WriteLine("Initialising Server Thread...");
             while (!serverThread.IsAlive) ;
 
-            textBox1.Text += "Server Started on: " + server.Host.ToString() + ":" + server.Port.ToString() + " in a worker thread." + Environment.NewLine; 
+            textBox1.Text += "Server Started on: " + server.Host.ToString() + ":" + server.Port.ToString() + " in a worker thread." + Environment.NewLine;
+            server.ClientConnected += server_ClientConnected;
+            server.DataReceived += server_DataReceived;
+        }
+
+        void server_DataReceived(System.Net.Sockets.Socket client, CustomEventArgs.DataReceivedEventArgs e)
+        {
+            this.textBox1.Text += "Data Received: " + e.Data.ToString() + Environment.NewLine;
+        }
+
+        void server_ClientConnected(System.Net.Sockets.Socket client, EventArgs e)
+        {
+            this.textBox1.Text += "Client Connected:" + client.RemoteEndPoint.ToString() + Environment.NewLine;
         }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -38,6 +50,7 @@ namespace UniProject.Server
             {
                 serverThread.Interrupt();
                 Console.WriteLine("Server Thread terminated");
+                Application.Exit();
             }
         }
     }

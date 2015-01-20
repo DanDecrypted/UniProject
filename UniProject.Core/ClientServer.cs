@@ -23,6 +23,12 @@ namespace UniProject.Core
             // Incoming data from the client.
             public string data = null;
             public Socket Socket;
+
+            public delegate void ClientConnectedHandler(Socket client, EventArgs e);
+            public delegate void DataReceivedHandler(Socket client, CustomEventArgs.DataReceivedEventArgs e);
+
+            public event ClientConnectedHandler ClientConnected;
+            public event DataReceivedHandler DataReceived;
             public int Port
             {
                 get
@@ -59,9 +65,9 @@ namespace UniProject.Core
                 // Data buffer for incoming data.
                 byte[] bytes = new Byte[1024];
 
-                // Establish the local endpoint for the socket.s
+                // Establish the local endpoint for the socket.
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(this.m_Host);
-                IPAddress ipAddress = ipHostInfo.AddressList[3];
+                IPAddress ipAddress = ipHostInfo.AddressList[5];
                 IPEndPoint localEndPoint = new IPEndPoint(ipAddress, this.m_Port);
 
                 // Create a TCP/IP socket.
@@ -78,6 +84,8 @@ namespace UniProject.Core
                     {
                         // Program is suspended while waiting for an incoming connection.
                         Socket = listener.Accept();
+                        EventArgs e = null;
+                        ClientConnected(Socket, e);
                         data = null;
 
                         // An incoming connection needs to be processed.
@@ -91,6 +99,9 @@ namespace UniProject.Core
                                 break;
                             }
                         }
+
+                        CustomEventArgs.DataReceivedEventArgs dr = new CustomEventArgs.DataReceivedEventArgs(data);
+                        DataReceived(Socket, dr);
                     }
 
                 }
@@ -107,7 +118,6 @@ namespace UniProject.Core
         public class Client
         {
             private int m_Port;
-            private int m_MaxConnections;
             private string m_Host;
             public Socket Socket;
             public Client(int port = 100, string host = "127.0.0.1")
@@ -123,7 +133,7 @@ namespace UniProject.Core
                 try {
                     // Establish the remote endpoint for the socket.
                     IPHostEntry ipHostInfo = Dns.GetHostEntry(this.m_Host);
-                    IPAddress ipAddress = ipHostInfo.AddressList[3];
+                    IPAddress ipAddress = ipHostInfo.AddressList[5];
                     IPEndPoint remoteEP = new IPEndPoint(ipAddress, this.m_Port);
 
                     // Create a TCP/IP  socket.

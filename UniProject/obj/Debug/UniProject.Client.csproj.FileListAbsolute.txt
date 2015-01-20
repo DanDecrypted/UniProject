@@ -6,3 +6,6 @@ C:\Users\Dan\Documents\GitHub\UniProject\UniProject\bin\Debug\UniProject.Client.
 C:\Users\Dan\Documents\GitHub\UniProject\UniProject\obj\Debug\UniProject.Client.exe
 C:\Users\Dan\Documents\GitHub\UniProject\UniProject\obj\Debug\UniProject.Client.pdb
 C:\Users\Dan\Documents\GitHub\UniProject\UniProject\obj\Debug\UniProject.Client.csprojResolveAssemblyReference.cache
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject\bin\Debug\UniProject.Core.dll
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject\bin\Debug\UniProject.Core.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject\obj\Debug\UniProject.Client.Form1.resources

@@ -17,11 +17,6 @@ namespace UniProject.ClientConsole
             ClientServer.Client client = new ClientServer.Client();
             client.StartClient();
             Console.WriteLine("Sending Test data: Test<EOF>...");
-            client.Send(client.Socket, "Test<EOF>");
-            client.SendDone.WaitOne();
-            client.Receive(client.Socket);
-            client.ReceiveDone.WaitOne();
-            Console.WriteLine("Response Received: {0}", client.Response);
             client.Socket.Shutdown(SocketShutdown.Both);
             client.Socket.Close();
             Console.ReadLine();

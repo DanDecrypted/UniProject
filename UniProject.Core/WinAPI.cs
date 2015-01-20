@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace UniProject.Core
 {
-    class WinAPI
+    public class WinAPI
     {
         [DllImport("user32")]
         public static extern void LockWorkStation();
