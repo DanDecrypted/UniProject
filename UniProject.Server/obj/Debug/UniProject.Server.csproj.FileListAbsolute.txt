@@ -1,0 +1,11 @@
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Server\bin\Debug\UniProject.Server.exe.config
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Server\bin\Debug\UniProject.Server.exe
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Server\bin\Debug\UniProject.Server.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Server\obj\Debug\UniProject.Server.Properties.Resources.resources
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Server\obj\Debug\UniProject.Server.csproj.GenerateResource.Cache
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Server\obj\Debug\UniProject.Server.exe
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Server\obj\Debug\UniProject.Server.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Server\bin\Debug\UniProject.Core.dll
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Server\bin\Debug\UniProject.Core.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Server\obj\Debug\UniProject.Server.csprojResolveAssemblyReference.cache
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Server\obj\Debug\UniProject.Server.frmMain.resources

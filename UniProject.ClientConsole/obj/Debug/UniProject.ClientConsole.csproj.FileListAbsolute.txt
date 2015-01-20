@@ -1,0 +1,8 @@
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ClientConsole\bin\Debug\UniProject.ClientConsole.exe.config
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ClientConsole\bin\Debug\UniProject.ClientConsole.exe
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ClientConsole\bin\Debug\UniProject.ClientConsole.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ClientConsole\bin\Debug\UniProject.Core.dll
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ClientConsole\bin\Debug\UniProject.Core.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ClientConsole\obj\Debug\UniProject.ClientConsole.csprojResolveAssemblyReference.cache
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ClientConsole\obj\Debug\UniProject.ClientConsole.exe
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ClientConsole\obj\Debug\UniProject.ClientConsole.pdb

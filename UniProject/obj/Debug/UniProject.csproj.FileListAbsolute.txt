@@ -1,0 +1,2 @@
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject\bin\Debug\UniProject.exe.config
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject\bin\Debug\UniProject.Client.exe.config

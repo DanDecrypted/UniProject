@@ -1,0 +1,8 @@
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject\obj\Debug\UniProject.Client.Properties.Resources.resources
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject\obj\Debug\UniProject.Client.csproj.GenerateResource.Cache
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject\bin\Debug\UniProject.Client.exe.config
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject\bin\Debug\UniProject.Client.exe
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject\bin\Debug\UniProject.Client.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject\obj\Debug\UniProject.Client.exe
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject\obj\Debug\UniProject.Client.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject\obj\Debug\UniProject.Client.csprojResolveAssemblyReference.cache
