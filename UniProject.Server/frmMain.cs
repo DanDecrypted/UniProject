@@ -37,21 +37,26 @@ namespace UniProject.Server
         void server_DataReceived(System.Net.Sockets.Socket client, CustomEventArgs.DataReceivedEventArgs e)
         {
             this.textBox1.Text += "Data Received: " + e.Data.ToString() + Environment.NewLine;
+            if (e.Data.ToString() == "Lock")
+            {
+                WinAPI.LockWorkStation();
+            }
         }
 
-        void server_ClientConnected(System.Net.Sockets.Socket client, EventArgs e)
+        void server_ClientConnected(System.Net.Sockets.Socket client, CustomEventArgs.SocketConnectedEventArgs e)
         {
-            this.textBox1.Text += "Client Connected:" + client.RemoteEndPoint.ToString() + Environment.NewLine;
+            this.textBox1.Text += "Client Connected:" + e.ToString() +Environment.NewLine;
         }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (serverThread.IsAlive)
+            while (serverThread.IsAlive)
             {
                 serverThread.Interrupt();
-                Console.WriteLine("Server Thread terminated");
-                Application.Exit();
+                serverThread.Join();
             }
+            Console.WriteLine("Server Thread terminated");
+            Application.Exit();
         }
     }
 }

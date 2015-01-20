@@ -8,6 +8,35 @@ namespace UniProject.Core
 {
     public class CustomEventArgs
     {
+        public class SocketConnectedEventArgs : EventArgs
+        {
+            private string m_Host;
+            private int m_Port;
+            public int Port
+            {
+                get 
+                { 
+                    return m_Port; 
+                }
+            }
+            public string Host
+            {
+                get 
+                { 
+                    return m_Host; 
+                }
+            }
+            public SocketConnectedEventArgs(string host, int port)
+            {
+                this.m_Host = host;
+                this.m_Port = port;
+            }
+
+            public override string ToString()
+            {
+                return this.m_Host + ":" + this.m_Port;
+            }
+        }
         public class DataReceivedEventArgs : EventArgs
         {
             private string m_Data;

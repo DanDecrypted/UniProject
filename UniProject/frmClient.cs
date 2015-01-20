@@ -12,11 +12,11 @@ using System.Threading;
 
 namespace UniProject.Client
 {
-    public partial class Form1 : Form
+    public partial class frmClient : Form
     {
         private ClientServer.Client client;
         private Thread clientThread;
-        public Form1()
+        public frmClient()
         {
             InitializeComponent();
             client = new ClientServer.Client();
@@ -32,13 +32,20 @@ namespace UniProject.Client
 
         private void SendMessage(string message)
         {
+            textBox1.Text += message + " Sent to Server" + Environment.NewLine;
             byte[] bytes = new byte[1024];
             byte[] encodedMessage = Encoding.ASCII.GetBytes(message.ToString() + "<EOF>");
             int bytesSent = client.Socket.Send(encodedMessage);
-            int bytesRec = client.Socket.Receive(bytes);
-            textBox1.Text += String.Format("Echoed test = {0}", Encoding.ASCII.GetString(bytes, 0, bytesRec));
-            client.Socket.Shutdown(System.Net.Sockets.SocketShutdown.Both);
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (client.Socket.Connected)
+            {
+                client.Socket.Shutdown(System.Net.Sockets.SocketShutdown.Both);
+            } 
             client.Socket.Close();
+            Console.WriteLine("Client gracefully closed.");
         }
     }
 }

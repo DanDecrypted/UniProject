@@ -13,6 +13,7 @@ namespace UniProject.Core
     {
         /// <summary>
         /// Synchronous Server. Taken from MSDN. Source http://msdn.microsoft.com/en-us/library/6y0e13d3%28v=vs.110%29.aspx
+        /// This class was taken and edited by me, adding a class constructor, and custom event calls were added for the purpose of multi-treading
         /// </summary>
         public class Server
         {
@@ -24,7 +25,7 @@ namespace UniProject.Core
             public string data = null;
             public Socket Socket;
 
-            public delegate void ClientConnectedHandler(Socket client, EventArgs e);
+            public delegate void ClientConnectedHandler(Socket client, CustomEventArgs.SocketConnectedEventArgs e);
             public delegate void DataReceivedHandler(Socket client, CustomEventArgs.DataReceivedEventArgs e);
 
             public event ClientConnectedHandler ClientConnected;
@@ -67,7 +68,7 @@ namespace UniProject.Core
 
                 // Establish the local endpoint for the socket.
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(this.m_Host);
-                IPAddress ipAddress = ipHostInfo.AddressList[5];
+                IPAddress ipAddress = ipHostInfo.AddressList[3];
                 IPEndPoint localEndPoint = new IPEndPoint(ipAddress, this.m_Port);
 
                 // Create a TCP/IP socket.
@@ -84,24 +85,22 @@ namespace UniProject.Core
                     {
                         // Program is suspended while waiting for an incoming connection.
                         Socket = listener.Accept();
-                        EventArgs e = null;
-                        ClientConnected(Socket, e);
-                        data = null;
+                        CustomEventArgs.SocketConnectedEventArgs sc = new CustomEventArgs.SocketConnectedEventArgs(this.m_Host, this.m_Port);
+                        ClientConnected(Socket, sc);
 
                         // An incoming connection needs to be processed.
-                        while (true)
+                        while (true && data != "EndTransmission<EOF>")
                         {
+                            data = null;
                             bytes = new byte[1024];
                             int bytesRec = Socket.Receive(bytes);
                             data += Encoding.ASCII.GetString(bytes, 0, bytesRec);
                             if (data.IndexOf("<EOF>") > -1)
                             {
-                                break;
+                                CustomEventArgs.DataReceivedEventArgs dr = new CustomEventArgs.DataReceivedEventArgs(data);
+                                DataReceived(Socket, dr);
                             }
                         }
-
-                        CustomEventArgs.DataReceivedEventArgs dr = new CustomEventArgs.DataReceivedEventArgs(data);
-                        DataReceived(Socket, dr);
                     }
 
                 }
@@ -114,12 +113,17 @@ namespace UniProject.Core
 
         /// <summary>
         /// Synchronous Client. Taken from MSDN. http://msdn.microsoft.com/en-us/library/kb5kfec7(v=vs.110).aspx
+        /// This class was taken and edited by me, adding a class constructor, and custom event calls were added for the purpose of multi-treading
         /// </summary>
         public class Client
         {
             private int m_Port;
             private string m_Host;
             public Socket Socket;
+
+            public delegate void ClientConnectedHandler(Socket socket, CustomEventArgs.SocketConnectedEventArgs e);
+
+            public event ClientConnectedHandler ClientConnected;
             public Client(int port = 100, string host = "127.0.0.1")
             {
                 this.m_Port = port;
@@ -133,7 +137,7 @@ namespace UniProject.Core
                 try {
                     // Establish the remote endpoint for the socket.
                     IPHostEntry ipHostInfo = Dns.GetHostEntry(this.m_Host);
-                    IPAddress ipAddress = ipHostInfo.AddressList[5];
+                    IPAddress ipAddress = ipHostInfo.AddressList[3];
                     IPEndPoint remoteEP = new IPEndPoint(ipAddress, this.m_Port);
 
                     // Create a TCP/IP  socket.
@@ -142,9 +146,7 @@ namespace UniProject.Core
                     // Connect the socket to the remote endpoint. Catch any errors.
                     try {
                         Socket.Connect(remoteEP);
-
                         Console.WriteLine("Socket connected to {0}", Socket.RemoteEndPoint.ToString());
-                
                     } catch (ArgumentNullException ane) {
                         Console.WriteLine("ArgumentNullException : {0}",ane.ToString());
                     } catch (SocketException se) {
