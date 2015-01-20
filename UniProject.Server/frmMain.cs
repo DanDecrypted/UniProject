@@ -37,7 +37,6 @@ namespace UniProject.Server
             if (serverThread.IsAlive)
             {
                 serverThread.Interrupt();
-                server.RequestStop();
                 Console.WriteLine("Server Thread terminated");
             }
         }

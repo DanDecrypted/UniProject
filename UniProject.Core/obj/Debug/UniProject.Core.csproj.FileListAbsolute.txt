@@ -2,3 +2,4 @@ C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Core\bin\Debug\UniProject.Co
 C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Core\bin\Debug\UniProject.Core.pdb
 C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Core\obj\Debug\UniProject.Core.dll
 C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Core\obj\Debug\UniProject.Core.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Core\obj\Debug\UniProject.Core.csprojResolveAssemblyReference.cache
