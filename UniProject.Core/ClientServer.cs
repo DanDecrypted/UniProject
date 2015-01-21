@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 
 namespace UniProject.Core
 {
@@ -25,6 +25,7 @@ namespace UniProject.Core
             public string data = "";
             public Socket Socket;
             public Socket Listener;
+            public List<Thread> ClientThreads;
 
             public delegate void ClientConnectedHandler(Socket client, CustomEventArgs.SocketConnectionEventArgs e);
             public delegate void ClientDisconnectedHandler(Socket client, CustomEventArgs.SocketConnectionEventArgs e);
@@ -66,12 +67,10 @@ namespace UniProject.Core
 
             public void StartListening()
             {
-                // Data buffer for incoming data.
-                byte[] bytes = new Byte[1024];
-
                 // Establish the local endpoint for the socket.
                 IPAddress ipAddress = IPAddress.Parse(this.m_Host);
                 IPEndPoint localEndPoint = new IPEndPoint(ipAddress, this.m_Port);
+                this.ClientThreads = new List<Thread>();
 
                 // Create a TCP/IP socket.
                 Listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -81,38 +80,53 @@ namespace UniProject.Core
                 Listener.Listen(this.m_MaxConnections);
 
                 // Start listening for connections.
-                while (!data.Contains("DestroyServer<EOF>"))
+                while (true)
                 {
                     // Program is suspended while waiting for an incoming connection.
                     Socket = Listener.Accept();
                     CustomEventArgs.SocketConnectionEventArgs sc = new CustomEventArgs.SocketConnectionEventArgs(this.m_Host, this.m_Port);
                     if (ClientConnected != null)
                         ClientConnected(Socket, sc);
-                    
-                    // Reset data field ready for the next client connection
-                    data = "";
-                    
-                    // An incoming connection needs to be processed.
-                    while (true)
+
+                    Thread ClientThread = new Thread(new ParameterizedThreadStart(ClientHandler));
+                    ClientThread.Start(Socket);
+                    while (!ClientThread.IsAlive) ;
+                    this.ClientThreads.Add(ClientThread);
+                }
+            }
+
+            private void ClientHandler(object Socket)
+            {
+                Socket clientSocket = (Socket)Socket;
+
+                // Data buffer for incoming data.
+                byte[] bytes = new Byte[1024];
+
+                // Reset data field ready for the next client connection
+                data = "";
+
+                // An incoming connection needs to be processed.
+                while (true)
+                {
+                    try
                     {
                         bytes = new byte[1024];
-                        int bytesRec = Socket.Receive(bytes);
+                        int bytesRec = clientSocket.Receive(bytes);
                         data += Encoding.ASCII.GetString(bytes, 0, bytesRec);
                         if (data.IndexOf("<EOF>") > -1)
                         {
                             CustomEventArgs.DataReceivedEventArgs dr = new CustomEventArgs.DataReceivedEventArgs(data);
                             if (DataReceived != null)
-                                DataReceived(Socket, dr);
+                                DataReceived(clientSocket, dr);
                             break;
                         }
                         data = "";
                     }
-
-                    if (ClientDisconnected != null)
-                        ClientDisconnected(Socket, sc);
-
-                    Socket.Shutdown(SocketShutdown.Both);
-                    Socket.Close();
+                    catch
+                    {
+                        clientSocket.Shutdown(SocketShutdown.Both);
+                        clientSocket.Close();
+                    }
                 }
             }
 
