@@ -11,7 +11,7 @@ namespace UniProject.ServerConsole
     {
         static void Main(string[] args)
         {
-            ClientServer.Server server = new ClientServer.Server(100, "127.0.0.1", 100);
+            ClientServer.Server server = new ClientServer.Server("127.0.0.1", 100, 100);
             server.StartListening();
             Console.WriteLine("Listening {0}:{1}", server.Host, server.Port);
             Console.ReadLine();

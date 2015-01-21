@@ -1,6 +1,6 @@
 ﻿namespace UniProject.Server
 {
-    partial class frmMain
+    partial class frmServer
     {
         /// <summary>
         /// Required designer variable.

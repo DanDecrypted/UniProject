@@ -15,7 +15,7 @@ namespace UniProject.ClientConsole
         static void Main(string[] args)
         {
             ClientServer.Client client = new ClientServer.Client();
-            client.StartClient();
+            client.InitializeSocket();
             Console.WriteLine("Sending Test data: Test<EOF>...");
             client.Socket.Shutdown(SocketShutdown.Both);
             client.Socket.Close();

@@ -8,4 +8,4 @@ C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Server\obj\Debug\UniProject.
 C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Server\bin\Debug\UniProject.Core.dll
 C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Server\bin\Debug\UniProject.Core.pdb
 C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Server\obj\Debug\UniProject.Server.csprojResolveAssemblyReference.cache
-C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Server\obj\Debug\UniProject.Server.frmMain.resources
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Server\obj\Debug\UniProject.Server.frmServer.resources

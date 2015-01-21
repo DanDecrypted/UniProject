@@ -5,6 +5,8 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UniProject.Core;
@@ -19,10 +21,26 @@ namespace UniProject.Client
         public frmClient()
         {
             InitializeComponent();
-            client = new ClientServer.Client();
-            clientThread = new Thread(client.StartClient);
-            clientThread.Start();
-            
+            client = new ClientServer.Client("169.254.50.104", 80);
+            client.InitializeSocket();
+            client.ErrorEvent += client_ClientError;
+            client.ConnectedEvent += client_ClientConnected;
+            client.DataSentEvent += client_DataSentEvent;
+        }
+
+        void client_DataSentEvent(CustomEventArgs.BaseCustomEventArgs e)
+        {
+            SafeTextboxUpdate("Data Sent: " + e.Data.ToString());
+        }
+
+        void client_ClientError(CustomEventArgs.BaseCustomEventArgs e)
+        {
+            MessageBox.Show(e.Data.ToString(), "Error");
+        }
+
+        void client_ClientConnected(System.Net.Sockets.Socket socket, CustomEventArgs.SocketConnectionEventArgs e)
+        {
+            SafeTextboxUpdate("Client connected to: " + e.ToString());
         }
 
         private void btnLock_Click(object sender, EventArgs e)
@@ -32,20 +50,22 @@ namespace UniProject.Client
 
         private void SendMessage(string message)
         {
-            textBox1.Text += message + " Sent to Server" + Environment.NewLine;
-            byte[] bytes = new byte[1024];
-            byte[] encodedMessage = Encoding.ASCII.GetBytes(message.ToString() + "<EOF>");
-            int bytesSent = client.Socket.Send(encodedMessage);
+            client.Send(message);
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (client.Socket.Connected)
+        }
+
+        private void SafeTextboxUpdate(string text)
+        {
+            if (textBox1.InvokeRequired)
             {
-                client.Socket.Shutdown(System.Net.Sockets.SocketShutdown.Both);
-            } 
-            client.Socket.Close();
-            Console.WriteLine("Client gracefully closed.");
+                textBox1.Invoke(new Action<string>(SafeTextboxUpdate), text);
+                return;
+            }
+
+            textBox1.Text += text + Environment.NewLine;
         }
     }
 }
