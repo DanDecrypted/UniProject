@@ -36,12 +36,10 @@ namespace UniProject.Core.ClientServer
         public event DataSentHandler DataSentEvent;
         public event ClientConnectedHandler ClientConnectedEvent;
         public event ClientDisconnectedHandler ClientDisconnectedEvent;
-        public int Port
+        
+        public Thread ListenerThread
         {
-            get
-            {
-                return m_Port;
-            }
+            get { return m_ListenerThread; }
         }
 
         public string Host
@@ -49,6 +47,13 @@ namespace UniProject.Core.ClientServer
             get
             {
                 return m_Host;
+            }
+        }
+        public int Port
+        {
+            get
+            {
+                return m_Port;
             }
         }
 
@@ -110,7 +115,7 @@ namespace UniProject.Core.ClientServer
                     {
                         client.Name = "Client" + this.Clients.IndexOf(client).ToString();
                         while (!client.Socket.Connected) ;
-                        client.Send("Name Changed to " + client.Name);
+                        client.Send("NameChange=" + Clients.IndexOf(client));
                     }
                 }
 
@@ -135,8 +140,8 @@ namespace UniProject.Core.ClientServer
                 {
                     if (handler.Name != "Client" + this.Clients.IndexOf(handler).ToString())
                     {
-                        client.Name = "Client" + this.Clients.IndexOf(handler).ToString();
-                        handler.Send("Name Changed to " + client.Name);
+                        handler.Send("NameChange=Client" + this.Clients.IndexOf(handler).ToString());
+                        handler.Name = "Client" + this.Clients.IndexOf(handler).ToString();
                     }
                 }
             }
@@ -247,7 +252,7 @@ namespace UniProject.Core.ClientServer
                 {
                     try
                     {
-                        bytes = new byte[1024];
+                        bytes = new Byte[1024];
                         int bytesRec = this.m_Socket.Receive(bytes);
                         m_Data = "";
                         m_Data += Encoding.ASCII.GetString(bytes, 0, bytesRec);

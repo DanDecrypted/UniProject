@@ -14,6 +14,7 @@ namespace UniProject.ServerConsole
         static void Main(string[] args)
         {
             server = new UniProject.Core.ClientServer.Server("127.0.0.1", 100, 100);
+            Console.Title = "Clients connected 0/" + server.MaxConnections;
             server.ClientConnectedEvent += server_ClientConnected;
             server.ClientDisconnectedEvent += server_ClientDisconnected;
             server.DataReceivedEvent += server_DataReceived;
@@ -32,18 +33,23 @@ namespace UniProject.ServerConsole
 
         static void server_ClientDisconnected(UniProject.Core.ClientServer.Server.ClientHandler client)
         {
+            Console.Title = String.Format("Clients connected {0}/{1}", server.Clients.Count(), server.MaxConnections);
             Console.WriteLine("Client Disconnected {0}. Clients connected {1}/{2}", client.Name, server.Clients.Count(), server.MaxConnections);
         }
 
         static void server_ClientConnected(UniProject.Core.ClientServer.Server.ClientHandler client)
         {
+            Console.Title = String.Format("Clients connected {0}/{1}", server.Clients.Count(), server.MaxConnections);
             Console.WriteLine("Client Connected {0}. Clients connected {1}/{2}", client.Name, server.Clients.Count(), server.MaxConnections);    
         }
 
         static void server_DataReceived(UniProject.Core.ClientServer.Server.ClientHandler client, Core.CustomEventArgs.DataEventArgs e)
         {
             Console.WriteLine(client.Name + ": " + e.Data.ToString());
-                if (e.Data.ToString() == "Shutdown<EOF>") server.StopListening();
+            if (e.Data.ToString() == "Shutdown<EOF>")
+            {
+                server.StopListening();
+            }
         }
     }
 }
