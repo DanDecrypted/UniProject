@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniProject.Client", "UniProject\UniProject.Client.csproj", "{F0C36CA2-32B0-4242-AD39-BF1799045475}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniProject.Server", "UniProject.Server\UniProject.Server.csproj", "{58682A0C-3098-4FC9-9E76-A53A50069651}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniProject.Core", "UniProject.Core\UniProject.Core.csproj", "{BFB71EC0-F02B-4478-BACF-28103DDD3C34}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniProject.ServerConsole", "UniProject.ServerConsole\UniProject.ServerConsole.csproj", "{AA881706-F7DC-4A75-B3A7-BDA06763733C}"
@@ -19,14 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F0C36CA2-32B0-4242-AD39-BF1799045475}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F0C36CA2-32B0-4242-AD39-BF1799045475}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F0C36CA2-32B0-4242-AD39-BF1799045475}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F0C36CA2-32B0-4242-AD39-BF1799045475}.Release|Any CPU.Build.0 = Release|Any CPU
-		{58682A0C-3098-4FC9-9E76-A53A50069651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{58682A0C-3098-4FC9-9E76-A53A50069651}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{58682A0C-3098-4FC9-9E76-A53A50069651}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{58682A0C-3098-4FC9-9E76-A53A50069651}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BFB71EC0-F02B-4478-BACF-28103DDD3C34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BFB71EC0-F02B-4478-BACF-28103DDD3C34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFB71EC0-F02B-4478-BACF-28103DDD3C34}.Release|Any CPU.ActiveCfg = Release|Any CPU

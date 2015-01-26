@@ -7,216 +7,386 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 
-namespace UniProject.Core
+namespace UniProject.Core.ClientServer
 {
-    public class ClientServer
+    /// <summary>
+    /// Synchronous Server. Taken from MSDN. Source http://msdn.microsoft.com/en-us/library/6y0e13d3%28v=vs.110%29.aspx
+    /// This class was taken and edited by me, adding a class constructor, and custom event calls were added for the purpose of multi-treading
+    /// </summary>
+    public class Server
     {
-        /// <summary>
-        /// Synchronous Server. Taken from MSDN. Source http://msdn.microsoft.com/en-us/library/6y0e13d3%28v=vs.110%29.aspx
-        /// This class was taken and edited by me, adding a class constructor, and custom event calls were added for the purpose of multi-treading
-        /// </summary>
-        public class Server
+        private int m_Port;
+        private int m_MaxConnections;
+        private string m_Host;
+        private Thread m_ClientCheckThread;
+        private Thread m_ListenerThread; 
+        private bool m_Listen = true;
+
+        // Incoming data from the client.
+        public Socket Socket;
+        public Socket Listener;
+        public List<ClientHandler> Clients;
+
+        public delegate void ClientConnectedHandler(ClientHandler client);
+        public delegate void ClientDisconnectedHandler(ClientHandler client);
+        public delegate void DataReceivedHandler(ClientHandler client, CustomEventArgs.DataEventArgs e);
+        public delegate void DataSentHandler(ClientHandler client, CustomEventArgs.DataEventArgs e);
+
+        public event DataReceivedHandler DataReceivedEvent;
+        public event DataSentHandler DataSentEvent;
+        public event ClientConnectedHandler ClientConnectedEvent;
+        public event ClientDisconnectedHandler ClientDisconnectedEvent;
+        public int Port
         {
-            private int m_Port;
-            private int m_MaxConnections;
+            get
+            {
+                return m_Port;
+            }
+        }
+
+        public string Host
+        {
+            get
+            {
+                return m_Host;
+            }
+        }
+
+        public int MaxConnections
+        {
+            get
+            {
+                return m_MaxConnections;
+            }
+        }
+
+        public bool IsAlive
+        {
+            get { return m_ListenerThread.IsAlive; }
+        }
+
+
+        public Server(string host = "127.0.0.1", int port = 100, int maxConnections = 100)
+        {
+            this.m_Port = port;
+            this.m_Host = host;
+            this.m_MaxConnections = maxConnections;
+            this.Clients = new List<ClientHandler>();
+            //m_ClientCheckThread = new Thread(CheckClients);
+            m_ListenerThread = new Thread(StartListening);
+            //m_ClientCheckThread.Start();
+            m_ListenerThread.Start();
+        }
+
+        public void StartListening()
+        {
+            // Establish the local endpoint for the socket.
+            IPAddress ipAddress = IPAddress.Parse(this.m_Host);
+            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, this.m_Port);
+
+            // Create a TCP/IP socket.
+            Listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+            // Bind the socket to the local endpoint and listen for incoming connections.
+            Listener.Bind(localEndPoint);
+            Listener.Listen(this.m_MaxConnections);
+
+            // Start listening for connections.
+            while (m_Listen)
+            {
+                Socket Socket = Listener.Accept();
+                ClientHandler clientHandler = new ClientHandler(Socket, this.m_Host, this.m_Port, "Client");
+
+                clientHandler.Start();
+                clientHandler.DataReceivedEvent += clientHandler_DataReceivedEvent;
+                clientHandler.DataSentEvent += clientHandler_DataSentEvent;
+                clientHandler.ClientDisconnectedEvent += clientHandler_ClientDisconnectedEvent;
+                
+                this.Clients.Add(clientHandler);
+
+                foreach (ClientHandler client in this.Clients)
+                {
+                    if (client.Name != "Client" + this.Clients.IndexOf(client).ToString())
+                    {
+                        client.Name = "Client" + this.Clients.IndexOf(client).ToString();
+                        while (!client.Socket.Connected) ;
+                        client.Send("Name Changed to " + client.Name);
+                    }
+                }
+
+                if (ClientConnectedEvent != null)
+                    ClientConnectedEvent(clientHandler);
+            }
+        }
+
+        private void clientHandler_DataSentEvent(Server.ClientHandler client, CustomEventArgs.DataEventArgs e)
+        {
+            this.DataSentEvent(client, e);
+        }
+
+        private void clientHandler_ClientDisconnectedEvent(Server.ClientHandler client)
+        {
+
+            this.Clients.Remove(client);
+
+            try
+            {
+                foreach (ClientHandler handler in this.Clients)
+                {
+                    if (handler.Name != "Client" + this.Clients.IndexOf(handler).ToString())
+                    {
+                        client.Name = "Client" + this.Clients.IndexOf(handler).ToString();
+                        handler.Send("Name Changed to " + client.Name);
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+
+            this.ClientDisconnectedEvent(client);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void StopListening()
+        {
+            this.m_Listen = false;
+            foreach (ClientHandler client in this.Clients)
+            {
+                client.Stop();
+            }
+            this.Listener.Shutdown(SocketShutdown.Both);
+            this.Listener.Close();
+        }
+
+        private void clientHandler_DataReceivedEvent(ClientHandler client, CustomEventArgs.DataEventArgs e)
+        {
+            if (this.DataReceivedEvent != null)
+                this.DataReceivedEvent(client, e);
+        }
+
+
+        public class ClientHandler
+        {
+            private Socket m_Socket;
+            private Thread m_WorkerThread;
+            private string m_Data;
             private string m_Host;
+            private string m_Name;
+            private int m_Port;
+            private volatile bool m_ShouldStop = false;
 
-            // Incoming data from the client.
-            public string data = "";
-            public Socket Socket;
-            public Socket Listener;
-            public List<Thread> ClientThreads;
+            public delegate void DataReceivedHandler(ClientHandler client, CustomEventArgs.DataEventArgs e);
+            public delegate void DataSentHandler(ClientHandler client, CustomEventArgs.DataEventArgs e);
+            public delegate void ClientDisconnectedHandler(ClientHandler client);
 
-            public delegate void ClientConnectedHandler(Socket client, CustomEventArgs.SocketConnectionEventArgs e);
-            public delegate void ClientDisconnectedHandler(Socket client, CustomEventArgs.SocketConnectionEventArgs e);
-            public delegate void DataReceivedHandler(Socket client, CustomEventArgs.DataReceivedEventArgs e);
+            public event DataReceivedHandler DataReceivedEvent;
+            public event DataSentHandler DataSentEvent;
+            public event ClientDisconnectedHandler ClientDisconnectedEvent;
 
-            public event ClientConnectedHandler ClientConnected;
-            public event ClientDisconnectedHandler ClientDisconnected;
-            public event DataReceivedHandler DataReceived;
-            public int Port
+            public Socket Socket
             {
-                get
-                {
-                    return m_Port;
-                }
+                get { return m_Socket; }
             }
 
-            public string Host
+            public string Name
             {
-                get
-                {
-                    return m_Host;
-                }
+                get { return m_Name;  }
+                set { this.m_Name = value; }
             }
 
-            public int MaxConnections
+            public Thread WorkerThread
             {
-                get
-                {
-                    return m_MaxConnections;
-                }
+                get { return m_WorkerThread; }
             }
 
-            public Server(string host = "127.0.0.1", int port = 100, int maxConnections = 100)
+            public ClientHandler(Socket socket, string host, int port, string name)
             {
-                this.m_Port = port;
                 this.m_Host = host;
-                this.m_MaxConnections = maxConnections;
+                this.m_Port = port;
+                this.m_Socket = socket;
+                this.m_Name = name;
             }
 
-            public void StartListening()
+            public void Start()
             {
-                // Establish the local endpoint for the socket.
-                IPAddress ipAddress = IPAddress.Parse(this.m_Host);
-                IPEndPoint localEndPoint = new IPEndPoint(ipAddress, this.m_Port);
-                this.ClientThreads = new List<Thread>();
+                m_WorkerThread = new Thread(Work);
+                m_WorkerThread.Start();
+            }
 
-                // Create a TCP/IP socket.
-                Listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            public void Stop()
+            {
+                this.m_ShouldStop = true;
+            }
 
-                // Bind the socket to the local endpoint and listen for incoming connections.
-                Listener.Bind(localEndPoint);
-                Listener.Listen(this.m_MaxConnections);
-
-                // Start listening for connections.
-                while (true)
+            public void Send(string message)
+            {
+                try
                 {
-                    // Program is suspended while waiting for an incoming connection.
-                    Socket = Listener.Accept();
-                    CustomEventArgs.SocketConnectionEventArgs sc = new CustomEventArgs.SocketConnectionEventArgs(this.m_Host, this.m_Port);
-                    if (ClientConnected != null)
-                        ClientConnected(Socket, sc);
-
-                    Thread ClientThread = new Thread(new ParameterizedThreadStart(ClientHandler));
-                    ClientThread.Start(Socket);
-                    while (!ClientThread.IsAlive) ;
-                    this.ClientThreads.Add(ClientThread);
+                    byte[] encodedMessage = Encoding.ASCII.GetBytes(message.ToString() + "<EOF>");
+                    int bytesSent = this.m_Socket.Send(encodedMessage);
+                    if (DataSentEvent != null)
+                        DataSentEvent(this, new CustomEventArgs.DataEventArgs(message));
+                }
+                catch (SocketException ex)
+                {
+                    Console.WriteLine(ex.SocketErrorCode.ToString());
                 }
             }
 
-            private void ClientHandler(object Socket)
+            private void Work()
             {
-                Socket clientSocket = (Socket)Socket;
-
                 // Data buffer for incoming data.
                 byte[] bytes = new Byte[1024];
 
-                // Reset data field ready for the next client connection
-                data = "";
-
                 // An incoming connection needs to be processed.
-                while (true)
+                while (!m_ShouldStop)
                 {
                     try
                     {
                         bytes = new byte[1024];
-                        int bytesRec = clientSocket.Receive(bytes);
-                        data += Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                        if (data.IndexOf("<EOF>") > -1)
+                        int bytesRec = this.m_Socket.Receive(bytes);
+                        m_Data = "";
+                        m_Data += Encoding.ASCII.GetString(bytes, 0, bytesRec);
+                        if (m_Data.IndexOf("<EOF>") > -1)
                         {
-                            CustomEventArgs.DataReceivedEventArgs dr = new CustomEventArgs.DataReceivedEventArgs(data);
-                            if (DataReceived != null)
-                                DataReceived(clientSocket, dr);
-                            break;
+                            if (DataReceivedEvent != null)
+                                DataReceivedEvent(this, new CustomEventArgs.DataEventArgs(m_Data));
                         }
-                        data = "";
                     }
-                    catch
+                    catch (SocketException ex)
                     {
-                        clientSocket.Shutdown(SocketShutdown.Both);
-                        clientSocket.Close();
+                        m_ShouldStop = true;
+                        Console.WriteLine("Connection Dropped by " + this.Name);
                     }
                 }
-            }
 
-            /// <summary>
-            /// Creates an instance of Client() to give the server the message to shut down as it's synchronous, this seems to be the safest way to exit out of the thread.
-            /// </summary>
-            public void StopListening()
+                if (this.m_Socket != null && this.m_Socket.Connected)
+                {
+                    this.m_Socket.Shutdown(SocketShutdown.Both);
+                    this.m_Socket.Close();
+                }
+
+                if (ClientDisconnectedEvent != null)
+                    ClientDisconnectedEvent(this);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Synchronous Client. Taken from MSDN. http://msdn.microsoft.com/en-us/library/kb5kfec7(v=vs.110).aspx
+    /// This class was taken and edited by me, adding a class constructor, and custom event calls were added for the purpose of multi-treading
+    /// </summary>
+    public class Client
+    {
+        private int m_Port;
+        private string m_Host;
+        private IPEndPoint m_RemoteEndP;
+        private IPAddress m_IP;
+        private Thread m_ReceiveWorker;
+        private Socket m_Socket;
+        private volatile bool m_ShouldStop;
+        private string m_Data;
+
+        public Socket Socket
+        {
+            get { return m_Socket; }
+        }
+
+        public delegate void ConnectedHandler(CustomEventArgs.DataEventArgs e);
+        public delegate void DataSentHandler(CustomEventArgs.DataEventArgs e);
+        public delegate void DataReceivedHandler(CustomEventArgs.DataEventArgs e);
+
+        public event ConnectedHandler ConnectedEvent;
+        public event DataSentHandler DataSentEvent;
+        public event DataReceivedHandler DataReceivedEvent;
+        public Client(string host = "127.0.0.1", int port = 100)
+        {
+            this.m_Host = host;
+            this.m_Port = port;
+            this.InitializeSocket();
+            this.m_ReceiveWorker = new Thread(Work);
+            this.m_ReceiveWorker.Start();
+        }
+
+        public void InitializeSocket() {
+            try
             {
-                Client client = new Client(this.m_Host, this.m_Port);
-                client.InitializeSocket();
-                client.Send("DestroyServer");
+                // Establish the remote endpoint for the socket.
+                m_IP = IPAddress.Parse(this.m_Host);
+                m_RemoteEndP = new IPEndPoint(m_IP, this.m_Port);
+
+                // Create a TCP/IP  socket if it hasn't already been created
+                if (m_Socket == null)
+                    m_Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+                // Attempt to make a connection
+                m_Socket.Connect(m_RemoteEndP);
+
+                // Give the socket time to initialize 
+                while (!m_Socket.Connected) ;
+
+                // Flag out to tell the client that the socket has been created
+                if (ConnectedEvent != null)
+                    ConnectedEvent(new CustomEventArgs.DataEventArgs(this.m_Host + ":" + this.m_Port.ToString()));
+            }
+            catch (SocketException ex)
+            {
+                if (ex.SocketErrorCode == SocketError.IsConnected)
+                    Console.WriteLine("Connection already established");
+                else
+                    Console.WriteLine(ex.SocketErrorCode.ToString());
             }
         }
 
-        /// <summary>
-        /// Synchronous Client. Taken from MSDN. http://msdn.microsoft.com/en-us/library/kb5kfec7(v=vs.110).aspx
-        /// This class was taken and edited by me, adding a class constructor, and custom event calls were added for the purpose of multi-treading
-        /// </summary>
-        public class Client
+        public int Send(string message)
         {
-            private int m_Port;
-            private string m_Host;
-            private IPEndPoint remoteEP;
-            private IPAddress ipAddress;
-
-            public Socket Socket;
-
-            public delegate void ClientConnectedHandler(Socket socket, CustomEventArgs.SocketConnectionEventArgs e);
-            public delegate void ClientErrorHandler(CustomEventArgs.BaseCustomEventArgs e);
-            public delegate void ClientDataSentHandler(CustomEventArgs.BaseCustomEventArgs e);
-
-            public event ClientConnectedHandler ConnectedEvent;
-            public event ClientErrorHandler ErrorEvent;
-            public event ClientDataSentHandler DataSentEvent;
-            public Client(string host = "127.0.0.1", int port = 100)
+            try
             {
-                this.m_Host = host;
-                this.m_Port = port;
-            }
-            public void InitializeSocket() {
-                try
+                byte[] encodedMessage = Encoding.ASCII.GetBytes(message.ToString() + "<EOF>");
+                int bytesSent = this.Socket.Send(encodedMessage);
+                if (DataSentEvent != null)
+                    DataSentEvent(new CustomEventArgs.DataEventArgs(message));
+                    
+                if (message == "Shutdown")
                 {
-                    // Establish the remote endpoint for the socket.
-                    ipAddress = IPAddress.Parse(this.m_Host);
-                    remoteEP = new IPEndPoint(ipAddress, this.m_Port);
-
+                    this.Socket.Shutdown(SocketShutdown.Both);
+                    this.Socket.Close();
                 }
-                catch (Exception ex)
-                {
-                    ErrorEvent(new CustomEventArgs.ClientErrorEventArgs(ex.ToString()));
-                }
+                return bytesSent;
             }
+            catch (SocketException ex)
 
-            public int Send(string message)
+            {
+                Console.WriteLine(ex.SocketErrorCode.ToString());
+                return 0;
+            }
+        }
+
+        private void Work()
+        {
+            byte[] bytes = new byte[1024];
+            while(!m_ShouldStop)
             {
                 try
                 {
-                    // Create a TCP/IP  socket if it hasn't already been created
-                    if (Socket == null)
-                        Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-                    // Attempt to make a connection
-                    Socket.Connect(remoteEP);
-
-                    // Give the socket time to initialize 
-                    while (!Socket.Connected) ;
-
-                    // Flag out to tell the client that the socket has been created
-                    CustomEventArgs.SocketConnectionEventArgs sce = new CustomEventArgs.SocketConnectionEventArgs(this.m_Host, this.m_Port);
-                    if (ConnectedEvent != null)
-                        ConnectedEvent(this.Socket, sce);
-
-                    byte[] encodedMessage = Encoding.ASCII.GetBytes(message.ToString() + "<EOF>");
-                    int bytesSent = this.Socket.Send(encodedMessage);
-                    if (DataSentEvent != null)
-                        DataSentEvent(new CustomEventArgs.BaseCustomEventArgs(message));
-                    Socket.Shutdown(SocketShutdown.Both);
-                    Socket.Close();
-                    Socket = null;
-                    return bytesSent;
-                }
-                catch (Exception ex)
-                {
-                    if (Socket.Connected)
+                    bytes = new byte[1024];
+                    int bytesRec = this.m_Socket.Receive(bytes);
+                    m_Data = "";
+                    m_Data += Encoding.ASCII.GetString(bytes, 0, bytesRec);
+                    if (m_Data.IndexOf("<EOF>") > -1)
                     {
-                        Socket.Shutdown(SocketShutdown.Both);
-                        Socket.Close();
+                        if (DataReceivedEvent != null)
+                            DataReceivedEvent(new CustomEventArgs.DataEventArgs(m_Data));
                     }
-                    ErrorEvent(new CustomEventArgs.BaseCustomEventArgs(ex.ToString()));
-                    return 0;
+                }
+                catch (SocketException ex)
+                {
+                    m_ShouldStop = true;
+                    Console.WriteLine("Connection Dropped by Server");
                 }
             }
         }

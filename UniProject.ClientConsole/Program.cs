@@ -14,12 +14,29 @@ namespace UniProject.ClientConsole
     {
         static void Main(string[] args)
         {
-            ClientServer.Client client = new ClientServer.Client();
-            client.InitializeSocket();
-            Console.WriteLine("Sending Test data: Test<EOF>...");
-            client.Socket.Shutdown(SocketShutdown.Both);
-            client.Socket.Close();
+            UniProject.Core.ClientServer.Client client = new UniProject.Core.ClientServer.Client();
+            client.DataSentEvent += client_DataSentEvent;
+            client.DataReceivedEvent += client_DataReceivedEvent;
+            int count = 0;
+            while (count < 10)
+            {
+                client.Send("Test" + count.ToString());
+                count += 1;
+                Console.ReadLine();
+            }
+            client.Send("Shutdown");
             Console.ReadLine();
+        }
+
+        static void client_DataReceivedEvent(Core.CustomEventArgs.DataEventArgs e)
+        {
+            string response = e.Data.ToString().Replace("<EOF>", "");
+            Console.WriteLine(response + " from server");
+        }
+
+        static void client_DataSentEvent(Core.CustomEventArgs.DataEventArgs e)
+        {
+            Console.WriteLine(e.Data.ToString() + " sent to server");
         }
     }
 }
