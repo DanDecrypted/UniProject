@@ -22,7 +22,7 @@ namespace UniProject.ClientConsole
             while (count < 10)
             {
                 Console.ReadLine();
-                client.Send("Test " + count.ToString());
+                client.Send(ASCIIEncoding.ASCII.GetBytes("Test " + count.ToString()));
                 count += 1;
             }
             
@@ -30,7 +30,7 @@ namespace UniProject.ClientConsole
 
         static void client_DataReceivedEvent(Core.CustomEventArgs.DataEventArgs e)
         {
-            string response = e.Data.ToString().Replace("<EOF>", "");
+            string response = ASCIIEncoding.ASCII.GetString(e.Data).Replace("<EOF>", "");
             Console.WriteLine(response + " from server");
             string[] data = response.Split('=');
             if (data[0] == "NameChange")
@@ -39,7 +39,7 @@ namespace UniProject.ClientConsole
 
         static void client_DataSentEvent(Core.CustomEventArgs.DataEventArgs e)
         {
-            Console.WriteLine(e.Data.ToString() + " sent to server");
+            Console.WriteLine(ASCIIEncoding.ASCII.GetString(e.Data).ToString() + " sent to server");
         }
     }
 }

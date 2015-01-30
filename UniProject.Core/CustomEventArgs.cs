@@ -9,8 +9,8 @@ namespace UniProject.Core.CustomEventArgs
 {
     public class DataEventArgs : EventArgs
     {
-        private string m_Data;
-        public string Data
+        private byte[] m_Data;
+        public byte[] Data
         {
             get { return m_Data; }
             set { this.m_Data = value; }
@@ -20,7 +20,7 @@ namespace UniProject.Core.CustomEventArgs
             return Data.ToString();
         }
 
-        public DataEventArgs(string data = "")
+        public DataEventArgs(byte[] data)
         {
             this.m_Data = data;
         }

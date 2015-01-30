@@ -1,0 +1,11 @@
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ScreenshotTest\bin\Debug\UniProject.ScreenshotTest.exe.config
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ScreenshotTest\bin\Debug\UniProject.ScreenshotTest.exe
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ScreenshotTest\bin\Debug\UniProject.ScreenshotTest.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ScreenshotTest\obj\Debug\UniProject.ScreenshotTest.csprojResolveAssemblyReference.cache
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ScreenshotTest\obj\Debug\UniProject.ScreenshotTest.Form1.resources
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ScreenshotTest\obj\Debug\UniProject.ScreenshotTest.Properties.Resources.resources
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ScreenshotTest\obj\Debug\UniProject.ScreenshotTest.csproj.GenerateResource.Cache
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ScreenshotTest\obj\Debug\UniProject.ScreenshotTest.exe
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ScreenshotTest\obj\Debug\UniProject.ScreenshotTest.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ScreenshotTest\bin\Debug\UniProject.Core.dll
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ScreenshotTest\bin\Debug\UniProject.Core.pdb

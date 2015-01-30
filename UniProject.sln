@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniProject.ServerConsole", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniProject.ClientConsole", "UniProject.ClientConsole\UniProject.ClientConsole.csproj", "{FF46AB0A-2E63-49E9-8CDC-65BE1FC0F5E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniProject.ServerForm", "UniProject.ServerForm\UniProject.ServerForm.csproj", "{0A21A334-94CD-416B-A27A-7FB7D35A597A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniProject.ScreenshotTest", "UniProject.ScreenshotTest\UniProject.ScreenshotTest.csproj", "{115D0A45-959E-49B8-97F9-DF0E1581F48E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{FF46AB0A-2E63-49E9-8CDC-65BE1FC0F5E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF46AB0A-2E63-49E9-8CDC-65BE1FC0F5E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF46AB0A-2E63-49E9-8CDC-65BE1FC0F5E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A21A334-94CD-416B-A27A-7FB7D35A597A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A21A334-94CD-416B-A27A-7FB7D35A597A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A21A334-94CD-416B-A27A-7FB7D35A597A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A21A334-94CD-416B-A27A-7FB7D35A597A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{115D0A45-959E-49B8-97F9-DF0E1581F48E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{115D0A45-959E-49B8-97F9-DF0E1581F48E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{115D0A45-959E-49B8-97F9-DF0E1581F48E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{115D0A45-959E-49B8-97F9-DF0E1581F48E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

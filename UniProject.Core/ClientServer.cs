@@ -18,7 +18,6 @@ namespace UniProject.Core.ClientServer
         private int m_Port;
         private int m_MaxConnections;
         private string m_Host;
-        private Thread m_ClientCheckThread;
         private Thread m_ListenerThread; 
         private bool m_Listen = true;
 
@@ -89,7 +88,7 @@ namespace UniProject.Core.ClientServer
             IPAddress ipAddress = IPAddress.Parse(this.m_Host);
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, this.m_Port);
 
-            // Create a TCP/IP socket.
+            // Create a TCP/IP socket.67
             Listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             // Bind the socket to the local endpoint and listen for incoming connections.
@@ -109,16 +108,6 @@ namespace UniProject.Core.ClientServer
                 
                 this.Clients.Add(clientHandler);
 
-                foreach (ClientHandler client in this.Clients)
-                {
-                    if (client.Name != "Client" + this.Clients.IndexOf(client).ToString())
-                    {
-                        client.Name = "Client" + this.Clients.IndexOf(client).ToString();
-                        while (!client.Socket.Connected) ;
-                        client.Send("NameChange=" + Clients.IndexOf(client));
-                    }
-                }
-
                 if (ClientConnectedEvent != null)
                     ClientConnectedEvent(clientHandler);
             }
@@ -126,31 +115,16 @@ namespace UniProject.Core.ClientServer
 
         private void clientHandler_DataSentEvent(Server.ClientHandler client, CustomEventArgs.DataEventArgs e)
         {
-            this.DataSentEvent(client, e);
+            if (this.DataSentEvent != null)
+                this.DataSentEvent(client, e);
         }
 
         private void clientHandler_ClientDisconnectedEvent(Server.ClientHandler client)
         {
 
             this.Clients.Remove(client);
-
-            try
-            {
-                foreach (ClientHandler handler in this.Clients)
-                {
-                    if (handler.Name != "Client" + this.Clients.IndexOf(handler).ToString())
-                    {
-                        handler.Send("NameChange=Client" + this.Clients.IndexOf(handler).ToString());
-                        handler.Name = "Client" + this.Clients.IndexOf(handler).ToString();
-                    }
-                }
-            }
-            catch
-            {
-
-            }
-
-            this.ClientDisconnectedEvent(client);
+            if (this.ClientDisconnectedEvent != null)
+                this.ClientDisconnectedEvent(client);
         }
 
         /// <summary>
@@ -178,7 +152,7 @@ namespace UniProject.Core.ClientServer
         {
             private Socket m_Socket;
             private Thread m_WorkerThread;
-            private string m_Data;
+            private byte[] m_Data;
             private string m_Host;
             private string m_Name;
             private int m_Port;
@@ -227,14 +201,28 @@ namespace UniProject.Core.ClientServer
                 this.m_ShouldStop = true;
             }
 
-            public void Send(string message)
+            public void Send(byte[] data)
             {
+                this.m_Data = data;
+                int total = 0;
+                int size = this.m_Data.Length;
+                int dataleft = size;
+                int sent;
                 try
                 {
-                    byte[] encodedMessage = Encoding.ASCII.GetBytes(message.ToString() + "<EOF>");
-                    int bytesSent = this.m_Socket.Send(encodedMessage);
+                    byte[] datasize = new byte[4];
+                    datasize = BitConverter.GetBytes(size);
+                    int bytesSent = this.m_Socket.Send(datasize);
+
+                    while (total < size)
+                    {
+                        sent = this.m_Socket.Send(this.m_Data, total, dataleft, SocketFlags.None);
+                        total += sent;
+                        dataleft -= sent;
+                    }
+
                     if (DataSentEvent != null)
-                        DataSentEvent(this, new CustomEventArgs.DataEventArgs(message));
+                        DataSentEvent(this, new CustomEventArgs.DataEventArgs(m_Data));
                 }
                 catch (SocketException ex)
                 {
@@ -252,20 +240,31 @@ namespace UniProject.Core.ClientServer
                 {
                     try
                     {
-                        bytes = new Byte[1024];
-                        int bytesRec = this.m_Socket.Receive(bytes);
-                        m_Data = "";
-                        m_Data += Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                        if (m_Data.IndexOf("<EOF>") > -1)
+                        int total = 0;
+                        int recv;
+                        byte[] datasize = new byte[4];
+
+                        recv = m_Socket.Receive(datasize, 0, 4, 0);
+                        int size = BitConverter.ToInt32(datasize, 0);
+                        int dataleft = size;
+                        m_Data = new byte[size];
+
+                        while (total < size)
                         {
-                            if (DataReceivedEvent != null)
-                                DataReceivedEvent(this, new CustomEventArgs.DataEventArgs(m_Data));
+                            recv = m_Socket.Receive(m_Data, total, dataleft, 0);
+                            if (recv == 0)
+                                break;
+                            total += recv;
+                            dataleft -= recv;
                         }
+
+                        if (DataReceivedEvent != null)
+                            DataReceivedEvent(this, new CustomEventArgs.DataEventArgs(m_Data));
                     }
                     catch (SocketException ex)
                     {
                         m_ShouldStop = true;
-                        Console.WriteLine("Connection Dropped by " + this.Name);
+                        Console.WriteLine("Connection Dropped by " + this.Name + ex.ToString());
                     }
                 }
 
@@ -294,7 +293,7 @@ namespace UniProject.Core.ClientServer
         private Thread m_ReceiveWorker;
         private Socket m_Socket;
         private volatile bool m_ShouldStop;
-        private string m_Data;
+        private byte[] m_Data;
 
         public Socket Socket
         {
@@ -336,7 +335,7 @@ namespace UniProject.Core.ClientServer
 
                 // Flag out to tell the client that the socket has been created
                 if (ConnectedEvent != null)
-                    ConnectedEvent(new CustomEventArgs.DataEventArgs(this.m_Host + ":" + this.m_Port.ToString()));
+                    ConnectedEvent(new CustomEventArgs.DataEventArgs(ASCIIEncoding.ASCII.GetBytes(this.m_Host + ":" + this.m_Port.ToString())));
             }
             catch (SocketException ex)
             {
@@ -347,27 +346,39 @@ namespace UniProject.Core.ClientServer
             }
         }
 
-        public int Send(string message)
+        public void AssignName(string name)
         {
+            if (this.m_Socket != null && this.m_Socket.Connected)
+            {
+                Send(ASCIIEncoding.ASCII.GetBytes("Name=" + name));
+            }
+        }
+
+        public void Send(byte[] data)
+        {
+            int total = 0;
+            int size = data.Length;
+            int dataleft = size;
+            int sent;
             try
             {
-                byte[] encodedMessage = Encoding.ASCII.GetBytes(message.ToString() + "<EOF>");
-                int bytesSent = this.Socket.Send(encodedMessage);
-                if (DataSentEvent != null)
-                    DataSentEvent(new CustomEventArgs.DataEventArgs(message));
-                    
-                if (message == "Shutdown")
+                byte[] datasize = new byte[4];
+                datasize = BitConverter.GetBytes(size);
+                int bytesSent = this.m_Socket.Send(datasize);
+
+                while (total < size)
                 {
-                    this.Socket.Shutdown(SocketShutdown.Both);
-                    this.Socket.Close();
+                    sent = this.m_Socket.Send(data, total, dataleft, SocketFlags.None);
+                    total += sent;
+                    dataleft -= sent;
                 }
-                return bytesSent;
+
+                if (DataSentEvent != null)
+                    DataSentEvent(new CustomEventArgs.DataEventArgs(m_Data));
             }
             catch (SocketException ex)
-
             {
                 Console.WriteLine(ex.SocketErrorCode.ToString());
-                return 0;
             }
         }
 
@@ -378,20 +389,31 @@ namespace UniProject.Core.ClientServer
             {
                 try
                 {
-                    bytes = new byte[1024];
-                    int bytesRec = this.m_Socket.Receive(bytes);
-                    m_Data = "";
-                    m_Data += Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                    if (m_Data.IndexOf("<EOF>") > -1)
+                    int total = 0;
+                    int recv;
+                    byte[] datasize = new byte[4];
+
+                    recv = m_Socket.Receive(datasize, 0, 4, 0);
+                    int size = BitConverter.ToInt32(datasize, 0);
+                    int dataleft = size;
+                    m_Data = new byte[size];
+
+                    while (total < size)
                     {
-                        if (DataReceivedEvent != null)
-                            DataReceivedEvent(new CustomEventArgs.DataEventArgs(m_Data));
+                        recv = m_Socket.Receive(m_Data, total, dataleft, 0);
+                        if (recv == 0)
+                            break;
+                        total += recv;
+                        dataleft -= recv;
                     }
+
+                    if (DataReceivedEvent != null)
+                        DataReceivedEvent(new CustomEventArgs.DataEventArgs(m_Data));
                 }
                 catch (SocketException ex)
                 {
                     m_ShouldStop = true;
-                    Console.WriteLine("Connection Dropped by Server");
+                    Console.WriteLine("Connection Dropped by Server" + ex.ToString());
                 }
             }
         }

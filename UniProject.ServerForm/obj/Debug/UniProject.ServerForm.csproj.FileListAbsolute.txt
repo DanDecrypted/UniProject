@@ -1,0 +1,12 @@
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerForm\bin\Debug\UniProject.ServerForm.exe.config
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerForm\bin\Debug\UniProject.ServerForm.exe
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerForm\bin\Debug\UniProject.ServerForm.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerForm\bin\Debug\UniProject.Core.dll
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerForm\bin\Debug\UniProject.Core.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerForm\obj\Debug\UniProject.ServerForm.csprojResolveAssemblyReference.cache
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerForm\obj\Debug\UniProject.ServerForm.Properties.Resources.resources
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerForm\obj\Debug\UniProject.ServerForm.csproj.GenerateResource.Cache
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerForm\obj\Debug\UniProject.ServerForm.exe
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerForm\obj\Debug\UniProject.ServerForm.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerForm\obj\Debug\UniProject.ServerForm.frmMain.resources
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerForm\obj\Debug\UniProject.ServerForm.ucClientViewer.resources

@@ -28,7 +28,7 @@ namespace UniProject.ServerConsole
 
         static void server_DataSentEvent(Core.ClientServer.Server.ClientHandler client, Core.CustomEventArgs.DataEventArgs e)
         {
-            Console.WriteLine(e.Data.ToString() + " Sent to " + client.Name);
+            Console.WriteLine(ASCIIEncoding.ASCII.GetString(e.Data).ToString() + " Sent to " + client.Name);
         }
 
         static void server_ClientDisconnected(UniProject.Core.ClientServer.Server.ClientHandler client)
@@ -46,7 +46,7 @@ namespace UniProject.ServerConsole
         static void server_DataReceived(UniProject.Core.ClientServer.Server.ClientHandler client, Core.CustomEventArgs.DataEventArgs e)
         {
             Console.WriteLine(client.Name + ": " + e.Data.ToString());
-            if (e.Data.ToString() == "Shutdown<EOF>")
+            if (ASCIIEncoding.ASCII.GetString(e.Data).ToString() == "Shutdown")
             {
                 server.StopListening();
             }
