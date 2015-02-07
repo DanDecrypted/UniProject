@@ -1,8 +1,0 @@
-C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerConsole\bin\Debug\UniProject.ServerConsole.exe.config
-C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerConsole\bin\Debug\UniProject.ServerConsole.exe
-C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerConsole\bin\Debug\UniProject.ServerConsole.pdb
-C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerConsole\bin\Debug\UniProject.Core.dll
-C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerConsole\bin\Debug\UniProject.Core.pdb
-C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerConsole\obj\Debug\UniProject.ServerConsole.csprojResolveAssemblyReference.cache
-C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerConsole\obj\Debug\UniProject.ServerConsole.exe
-C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ServerConsole\obj\Debug\UniProject.ServerConsole.pdb

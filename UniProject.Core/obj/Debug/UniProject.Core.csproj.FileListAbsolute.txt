@@ -1,5 +1,5 @@
-C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Core\bin\Debug\UniProject.Core.dll
-C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Core\bin\Debug\UniProject.Core.pdb
-C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Core\obj\Debug\UniProject.Core.dll
-C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Core\obj\Debug\UniProject.Core.pdb
-C:\Users\Dan\Documents\GitHub\UniProject\UniProject.Core\obj\Debug\UniProject.Core.csprojResolveAssemblyReference.cache
+C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.Core\obj\Debug\UniProject.Core.csprojResolveAssemblyReference.cache
+C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.Core\bin\Debug\UniProject.Core.dll
+C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.Core\bin\Debug\UniProject.Core.pdb
+C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.Core\obj\Debug\UniProject.Core.dll
+C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.Core\obj\Debug\UniProject.Core.pdb
