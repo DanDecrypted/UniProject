@@ -331,7 +331,7 @@ namespace UniProject.Core.ClientServer
                 m_Socket.Connect(m_RemoteEndP);
 
                 // Give the socket time to initialize 
-                while (!m_Socket.Connected) ;
+                Thread.Sleep(10);
 
                 // Flag out to tell the client that the socket has been created
                 if (ConnectedEvent != null)

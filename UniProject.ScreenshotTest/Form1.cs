@@ -23,7 +23,7 @@ namespace UniProject.ScreenshotTest
         public Form1()
         {
             InitializeComponent();
-            client = new Core.ClientServer.Client();
+            client = new Core.ClientServer.Client("10.248.0.33", 100);
             client.DataSentEvent += client_DataSentEvent;
             client.ConnectedEvent += client_ConnectedEvent;
         }

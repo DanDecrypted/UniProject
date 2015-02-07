@@ -30,7 +30,8 @@ namespace UniProject.ServerForm
 
         void server_DataReceivedEvent(Core.ClientServer.Server.ClientHandler client, Core.CustomEventArgs.DataEventArgs e)
         {
-            try
+            string dataString = ASCIIEncoding.ASCII.GetString(e.Data);
+            if (!dataString.Contains("Name="))
             {
                 ms = new MemoryStream(e.Data);
                 imageFromStream = Image.FromStream(ms);
@@ -43,20 +44,12 @@ namespace UniProject.ServerForm
                 }
                 e.Data = new byte[] { };
             }
-            catch
+            else
             {
-                try
+                string[] args = dataString.Split('=');
+                if (args[0] == "Name")
                 {
-                    string dataString = ASCIIEncoding.ASCII.GetString(e.Data);
-                    string[] args = dataString.Split('=');
-                    if (args[0] == "Name")
-                    {
-                        client.Name = args[1];
-                    }
-                }
-                catch (Exception ex)
-                {
-                    UpdateLog("Error: " + ex.ToString());
+                    client.Name = args[1];
                 }
             }
         }
