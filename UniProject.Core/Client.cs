@@ -24,6 +24,20 @@ namespace UniProject.Core
             get { return m_Socket; }
         }
 
+        public string LocalIP
+        {
+            get
+            {
+                IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+                return host.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork).ToString(); //http://stackoverflow.com/questions/6803073/get-local-ip-address-c-sharp
+            }
+        }
+
+        public string ServerAddress
+        {
+            get { return m_Host + ":" + m_Port.ToString(); }
+        }
+
         public delegate void ConnectedHandler(CustomEventArgs e);
         public delegate void DataSentHandler(CustomEventArgs e);
         public delegate void DataReceivedHandler(CustomEventArgs e);
@@ -63,7 +77,7 @@ namespace UniProject.Core
 
                 // Flag out to tell the client that the socket has been created
                 if (ClientConnected != null)
-                    ClientConnected(new CustomEventArgs(this.m_Host + ":" + this.m_Port.ToString()));
+                    ClientConnected(new CustomEventArgs(this.ServerAddress));
             }
             catch
             {

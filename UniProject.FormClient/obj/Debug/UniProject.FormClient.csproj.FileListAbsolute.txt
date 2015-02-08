@@ -1,0 +1,11 @@
+C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.FormClient\bin\Debug\UniProject.FormClient.exe.config
+C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.FormClient\bin\Debug\UniProject.FormClient.exe
+C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.FormClient\bin\Debug\UniProject.FormClient.pdb
+C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.FormClient\bin\Debug\UniProject.Core.dll
+C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.FormClient\bin\Debug\UniProject.Core.pdb
+C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.FormClient\obj\Debug\UniProject.FormClient.csprojResolveAssemblyReference.cache
+C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.FormClient\obj\Debug\UniProject.FormClient.frmMain.resources
+C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.FormClient\obj\Debug\UniProject.FormClient.Properties.Resources.resources
+C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.FormClient\obj\Debug\UniProject.FormClient.csproj.GenerateResource.Cache
+C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.FormClient\obj\Debug\UniProject.FormClient.exe
+C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.FormClient\obj\Debug\UniProject.FormClient.pdb

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniProject.Core", "UniProje
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniProject.ConsoleClient", "UniProject.ConsoleClient\UniProject.ConsoleClient.csproj", "{FEBB07BB-B822-4E05-8F1B-2ECA3607AE42}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniProject.FormClient", "UniProject.FormClient\UniProject.FormClient.csproj", "{6FCAAC01-B74B-4721-BC8A-D3A1E81BEC9E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FEBB07BB-B822-4E05-8F1B-2ECA3607AE42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEBB07BB-B822-4E05-8F1B-2ECA3607AE42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEBB07BB-B822-4E05-8F1B-2ECA3607AE42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FCAAC01-B74B-4721-BC8A-D3A1E81BEC9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FCAAC01-B74B-4721-BC8A-D3A1E81BEC9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FCAAC01-B74B-4721-BC8A-D3A1E81BEC9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FCAAC01-B74B-4721-BC8A-D3A1E81BEC9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
