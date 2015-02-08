@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BFB71EC0-F02B-4478-BACF-28103DDD3C34}</ProjectGuid>
+    <ProjectGuid>{8B523A39-0FD1-48A1-9024-99A8680B1125}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UniProject.Core</RootNamespace>
@@ -39,8 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientServer.cs" />
+    <Compile Include="Client.cs" />
+    <Compile Include="ClientHandler.cs" />
     <Compile Include="CustomEventArgs.cs" />
+    <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WinAPI.cs" />
   </ItemGroup>
