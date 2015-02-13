@@ -34,7 +34,6 @@
             this.btnLockAll = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txtLog = new System.Windows.Forms.TextBox();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -44,6 +43,8 @@
             // 
             // layoutPanel
             // 
+            this.layoutPanel.AutoScroll = true;
+            this.layoutPanel.BackColor = System.Drawing.Color.White;
             this.layoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutPanel.Location = new System.Drawing.Point(0, 0);
             this.layoutPanel.Name = "layoutPanel";
@@ -67,7 +68,7 @@
             this.btnLockAll.ImageTransparentColor = System.Drawing.Color.White;
             this.btnLockAll.Name = "btnLockAll";
             this.btnLockAll.Size = new System.Drawing.Size(23, 22);
-            this.btnLockAll.Text = "toolStripButton1";
+            this.btnLockAll.Text = "Lock All Computers";
             this.btnLockAll.Click += new System.EventHandler(this.btnLockAll_Click);
             // 
             // splitContainer1
@@ -99,10 +100,6 @@
             this.txtLog.Size = new System.Drawing.Size(128, 504);
             this.txtLog.TabIndex = 0;
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -133,7 +130,6 @@
         private System.Windows.Forms.ToolStripButton btnLockAll;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TextBox txtLog;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
 

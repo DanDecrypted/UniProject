@@ -28,14 +28,7 @@ namespace UniProject.FormServer
 
         void server_DataSent(object sender, CustomEventArgs e)
         {
-            if (txtLog.InvokeRequired)
-            {
-                txtLog.Invoke(new Action<object, CustomEventArgs>(server_DataSent), sender, e);
-            }
-            else
-            {
-                txtLog.Text += String.Format("Data Sent: {0}", e.ToString());
-            }
+            SafeUpdateLog(String.Format("Data Sent: {0}", e.ToString()));
         }
 
         void server_DataReceived(object sender, CustomEventArgs e)
@@ -55,14 +48,7 @@ namespace UniProject.FormServer
             }
             catch
             {
-                if (txtLog.InvokeRequired)
-                {
-                    txtLog.Invoke(new Action<object, CustomEventArgs>(server_DataSent), sender, e);
-                }
-                else
-                {
-                    txtLog.Text += String.Format("Data Received: {0}", e.ToString());
-                }
+                SafeUpdateLog(String.Format("Data Received: {0}", e.ToString()));
             }
         }
 
@@ -70,13 +56,13 @@ namespace UniProject.FormServer
         {
             if (layoutPanel.InvokeRequired)
             {
-                layoutPanel.Invoke(new Action<object, CustomEventArgs>(server_DataSent), sender, e);
+                layoutPanel.Invoke(new Action<object, CustomEventArgs>(server_ClientDisconnected), sender, e);
             }
             else
             {
                 foreach (ctrlScreenViewer screenViewer in layoutPanel.Controls)
                 {
-                    if (screenViewer.lblClientID.Text == ((ClientHandler)sender).Address.ToString())
+                    if (screenViewer.lblClientID.Text == e.ToString())
                     {
                         layoutPanel.Controls.Remove(screenViewer);
                     }
@@ -95,7 +81,7 @@ namespace UniProject.FormServer
             {
                 ctrlScreenViewer screenViewer = new ctrlScreenViewer(e.ToString());
                 layoutPanel.Controls.Add(screenViewer);
-                SafeUpdateLog(String.Format("Client Connected: {0}", e.ToString()) + Environment.NewLine);
+                SafeUpdateLog(String.Format("Client Connected: {0}", e.ToString()));
             }
         }
 

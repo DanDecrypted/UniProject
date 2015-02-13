@@ -45,6 +45,9 @@
             // 
             // imgScreen
             // 
+            this.imgScreen.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.imgScreen.Location = new System.Drawing.Point(7, 21);
             this.imgScreen.Name = "imgScreen";
             this.imgScreen.Size = new System.Drawing.Size(273, 157);
@@ -53,6 +56,7 @@
             // 
             // lblCurrentUser
             // 
+            this.lblCurrentUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCurrentUser.AutoSize = true;
             this.lblCurrentUser.Location = new System.Drawing.Point(210, 5);
             this.lblCurrentUser.Name = "lblCurrentUser";
@@ -69,7 +73,7 @@
             this.Controls.Add(this.imgScreen);
             this.Controls.Add(this.lblClientID);
             this.Name = "ctrlScreenViewer";
-            this.Size = new System.Drawing.Size(293, 190);
+            this.Size = new System.Drawing.Size(292, 190);
             ((System.ComponentModel.ISupportInitialize)(this.imgScreen)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

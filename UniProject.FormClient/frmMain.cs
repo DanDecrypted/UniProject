@@ -65,7 +65,7 @@ namespace UniProject.FormClient
                 }
                 bmpScreenshot.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
                 m_Client.Send(ms.ToArray());
-                Thread.Sleep(10);
+                Thread.Sleep(1000);
             }
         }
     }

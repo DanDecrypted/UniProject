@@ -45,17 +45,24 @@ namespace UniProject.Core
         {
             while (m_ShouldListen)
             {
-                ClientHandler newClient = new ClientHandler(this, m_Socket.AcceptTcpClient());
-                newClient.DataReceived += ClientHandler_DataReceived;
-                newClient.DataSent += ClientHandler_DataSent;
-                newClient.ClientDisconnected += ClientHandler_ClientDisconnected;
-                AddClient(newClient);
-                newClient.Start();
-                
-                if (ClientConnected != null)
-                    ClientConnected(newClient, new CustomEventArgs(newClient.Address.ToString()));
+                try
+                {
+                    ClientHandler newClient = new ClientHandler(this, m_Socket.AcceptTcpClient());
+                    newClient.DataReceived += ClientHandler_DataReceived;
+                    newClient.DataSent += ClientHandler_DataSent;
+                    newClient.ClientDisconnected += ClientHandler_ClientDisconnected;
+                    AddClient(newClient);
+                    newClient.Start();
 
-                newClient = null;
+                    if (ClientConnected != null)
+                        ClientConnected(newClient, new CustomEventArgs(newClient.Address.ToString()));
+
+                    newClient = null;
+                }
+                catch
+                {
+                    // server shut down. Do nothing.
+                }
             }
         }
 
@@ -105,8 +112,8 @@ namespace UniProject.Core
 
         public void Stop()
         {
-            m_Socket.Stop();
             m_ShouldListen = false;
+            m_Socket.Stop();
         }
     }
 }
