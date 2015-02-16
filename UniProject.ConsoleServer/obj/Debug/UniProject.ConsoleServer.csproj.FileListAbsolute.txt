@@ -6,3 +6,11 @@ C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.ConsoleServ
 C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.ConsoleServer\obj\Debug\UniProject.ConsoleServer.csprojResolveAssemblyReference.cache
 C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.ConsoleServer\obj\Debug\UniProject.ConsoleServer.exe
 C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.ConsoleServer\obj\Debug\UniProject.ConsoleServer.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ConsoleServer\bin\Debug\UniProject.ConsoleServer.exe.config
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ConsoleServer\bin\Debug\UniProject.ConsoleServer.exe
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ConsoleServer\bin\Debug\UniProject.ConsoleServer.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ConsoleServer\bin\Debug\UniProject.Core.dll
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ConsoleServer\bin\Debug\UniProject.Core.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ConsoleServer\obj\Debug\UniProject.ConsoleServer.csprojResolveAssemblyReference.cache
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ConsoleServer\obj\Debug\UniProject.ConsoleServer.exe
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ConsoleServer\obj\Debug\UniProject.ConsoleServer.pdb

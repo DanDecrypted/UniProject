@@ -24,7 +24,7 @@ namespace UniProject.FormClient
         public frmMain()
         {
             InitializeComponent();
-            m_Client = new Client("10.248.0.10", 101);
+            m_Client = new Client("127.0.0.1", 101);
             m_ShouldWork = true;
             m_ScreenWorkerThread = new Thread(ScreenFeed);
             m_Client.ClientConnected += client_ClientConnected;
@@ -66,6 +66,33 @@ namespace UniProject.FormClient
                 bmpScreenshot.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
                 m_Client.Send(ms.ToArray());
                 Thread.Sleep(1000);
+            }
+        }
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (m_ScreenWorkerThread.IsAlive)
+            {
+                m_ShouldWork = false;
+                Thread.Sleep(1000);
+                m_Client.Socket.Close();
+            }
+        }
+
+        private void notifyIcon_Click(object sender, EventArgs e)
+        {
+            notifyIconContextMenu.Show(Control.MousePosition);
+        }
+
+        private void mnuExitClient_Click(object sender, EventArgs e)
+        {
+            if (m_ScreenWorkerThread.IsAlive)
+            {
+                m_ShouldWork = false;
+                Thread.Sleep(1000);
+                m_Client.Socket.Close();
+                Application.Exit();
+
             }
         }
     }

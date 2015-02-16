@@ -1,27 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using UniProject.Core;
 
 namespace UniProject.FormServer
 {
-    public partial class ctrlScreenViewer : UserControl
+    public partial class frmClientChat : Form
     {
-        public ctrlScreenViewer()
+        public frmClientChat()
         {
             InitializeComponent();
-        }
-
-        public ctrlScreenViewer(string clientID)
-        {
-            InitializeComponent();
-            this.lblClientID.Text = clientID;
         }
     }
 }

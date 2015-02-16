@@ -10,3 +10,15 @@ C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.FormServer\
 C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.FormServer\obj\Debug\UniProject.FormServer.csproj.GenerateResource.Cache
 C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.FormServer\obj\Debug\UniProject.FormServer.exe
 C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.FormServer\obj\Debug\UniProject.FormServer.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormServer\obj\Debug\UniProject.FormServer.csprojResolveAssemblyReference.cache
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormServer\obj\Debug\UniProject.FormServer.ctrlScreenViewer.resources
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormServer\obj\Debug\UniProject.FormServer.frmMain.resources
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormServer\obj\Debug\UniProject.FormServer.Properties.Resources.resources
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormServer\obj\Debug\UniProject.FormServer.csproj.GenerateResource.Cache
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormServer\obj\Debug\UniProject.FormServer.exe
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormServer\bin\Debug\UniProject.FormServer.exe.config
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormServer\bin\Debug\UniProject.FormServer.exe
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormServer\bin\Debug\UniProject.FormServer.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormServer\bin\Debug\UniProject.Core.dll
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormServer\bin\Debug\UniProject.Core.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormServer\obj\Debug\UniProject.FormServer.pdb

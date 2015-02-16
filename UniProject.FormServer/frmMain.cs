@@ -80,14 +80,21 @@ namespace UniProject.FormServer
             else
             {
                 ctrlScreenViewer screenViewer = new ctrlScreenViewer(e.ToString());
+                screenViewer.Click += screenViewer_Click;
                 layoutPanel.Controls.Add(screenViewer);
                 SafeUpdateLog(String.Format("Client Connected: {0}", e.ToString()));
             }
         }
 
+        void screenViewer_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void frmMain_Load(object sender, EventArgs e)
         {
             server.Start();
+            this.layoutPanel.Controls.Clear();
         }
 
         private void btnLockAll_Click(object sender, EventArgs e)

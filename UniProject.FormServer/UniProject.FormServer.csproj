@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmClientChat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmClientChat.Designer.cs">
+      <DependentUpon>frmClientChat.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,6 +66,9 @@
     </Compile>
     <EmbeddedResource Include="ctrlScreenViewer.resx">
       <DependentUpon>ctrlScreenViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmClientChat.resx">
+      <DependentUpon>frmClientChat.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
