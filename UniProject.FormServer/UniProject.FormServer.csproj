@@ -50,6 +50,12 @@
     <Compile Include="frmClientChat.Designer.cs">
       <DependentUpon>frmClientChat.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmOneToOne.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmOneToOne.Designer.cs">
+      <DependentUpon>frmOneToOne.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +75,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmClientChat.resx">
       <DependentUpon>frmClientChat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmOneToOne.resx">
+      <DependentUpon>frmOneToOne.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>

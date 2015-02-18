@@ -13,15 +13,47 @@ namespace UniProject.FormServer
 {
     public partial class ctrlScreenViewer : UserControl
     {
+        private ClientHandler client;
+        public frmOneToOne OneToOneForm;
+        public bool OneToOneMode = false;
         public ctrlScreenViewer()
         {
             InitializeComponent();
         }
 
-        public ctrlScreenViewer(string clientID)
+        public ctrlScreenViewer(string clientID, ClientHandler client)
         {
             InitializeComponent();
+            this.client = client;
             this.lblClientID.Text = clientID;
+            this.lblCurrentUser.Text = client.CurrentUser;
+        }
+
+        private void FullScreenMode_Activate(object sender, EventArgs e)
+        {
+            if (!OneToOneMode)
+            {
+                OneToOneForm = new frmOneToOne("One to One session with: " + this.lblClientID.Text, this.client);
+                OneToOneForm.Show();
+                OneToOneForm.FormClosed += fullScreenForm_FormClosed;
+                OneToOneMode = true;
+            }
+        }
+
+        private void ClientArea_Click(object sender, EventArgs e)
+        {
+            this.clientCommandsMenuStrip.Show(Cursor.Position);
+        }
+
+        void fullScreenForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            OneToOneMode = false;
+            OneToOneForm.Close();
+        }
+
+        private void lockToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.client.Send("WinAPI.Lock");
         }
     }
 }

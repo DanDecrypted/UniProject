@@ -11,18 +11,19 @@ using UniProject.Core;
 
 namespace UniProject.FormServer
 {
-    public partial class frmClientChat : Form
+    public partial class frmOneToOne : Form
     {
         ClientHandler client;
-        public frmClientChat()
+        public frmOneToOne()
         {
             InitializeComponent();
         }
 
-        public frmClientChat(ClientHandler handler)
+        public frmOneToOne(string title, ClientHandler client)
         {
             InitializeComponent();
-            client = handler;
+            this.Text = title;
+            this.client = client;
         }
     }
 }

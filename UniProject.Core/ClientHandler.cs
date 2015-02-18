@@ -22,6 +22,7 @@ namespace UniProject.Core
         private TcpClient m_Client;
         private Thread m_WorkerThread;
         private volatile bool m_ShouldWork;
+        private string m_CurrentUser;
 
         public bool Connected
         {
@@ -32,8 +33,17 @@ namespace UniProject.Core
         {
             get
             {
-                return ((IPEndPoint)m_Client.Client.RemoteEndPoint).Address;
+                if (m_Client.Client != null)
+                    return ((IPEndPoint)m_Client.Client.RemoteEndPoint).Address;
+                else
+                    return (IPAddress.Any);
             }
+        }
+
+        public string CurrentUser
+        {
+            get { return m_CurrentUser;  }
+            set { m_CurrentUser = value; }
         }
 
         public ClientHandler(Server server, TcpClient client)
@@ -51,15 +61,17 @@ namespace UniProject.Core
                 try
                 {
                     int dataTotal = 0;
-                    int dataReceived;
+                    int dataReceived = 0;
                     byte[] packetSize = new byte[4];
-                    dataReceived = m_Client.Client.Receive(packetSize, 0, 4, 0);
+                    if (m_Client.Client != null)
+                        dataReceived = m_Client.Client.Receive(packetSize, 0, 4, 0);
                     int dataBuffer = BitConverter.ToInt32(packetSize, 0);
                     int dataLeft = dataBuffer;
                     byte[] data = new byte[dataBuffer];
                     while (dataTotal < dataBuffer)
                     {
-                        dataReceived = m_Client.Client.Receive(data, dataTotal, dataLeft, 0);
+                        if (m_Client.Client != null)
+                            dataReceived = m_Client.Client.Receive(data, dataTotal, dataLeft, 0);
                         if (dataReceived == 0)
                             break;
                         dataTotal += dataReceived;

@@ -114,6 +114,10 @@ namespace UniProject.Core
         {
             m_ShouldListen = false;
             m_Socket.Stop();
+            foreach (ClientHandler handler in this.Clients.ToList())
+            {
+                handler.Stop();
+            }
         }
     }
 }

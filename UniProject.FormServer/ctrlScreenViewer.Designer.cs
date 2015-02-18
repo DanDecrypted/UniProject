@@ -28,10 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lblClientID = new System.Windows.Forms.Label();
             this.imgScreen = new System.Windows.Forms.PictureBox();
             this.lblCurrentUser = new System.Windows.Forms.Label();
+            this.clientCommandsMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.lockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.shutdownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fullScreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.imgScreen)).BeginInit();
+            this.clientCommandsMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblClientID
@@ -42,6 +48,8 @@
             this.lblClientID.Size = new System.Drawing.Size(54, 13);
             this.lblClientID.TabIndex = 0;
             this.lblClientID.Text = "lblClientID";
+            this.lblClientID.Click += new System.EventHandler(this.ClientArea_Click);
+            this.lblClientID.DoubleClick += new System.EventHandler(this.FullScreenMode_Activate);
             // 
             // imgScreen
             // 
@@ -53,17 +61,49 @@
             this.imgScreen.Size = new System.Drawing.Size(273, 157);
             this.imgScreen.TabIndex = 1;
             this.imgScreen.TabStop = false;
+            this.imgScreen.Click += new System.EventHandler(this.ClientArea_Click);
+            this.imgScreen.DoubleClick += new System.EventHandler(this.FullScreenMode_Activate);
             // 
             // lblCurrentUser
             // 
             this.lblCurrentUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblCurrentUser.AutoSize = true;
-            this.lblCurrentUser.Location = new System.Drawing.Point(210, 5);
+            this.lblCurrentUser.Location = new System.Drawing.Point(64, 2);
             this.lblCurrentUser.Name = "lblCurrentUser";
-            this.lblCurrentUser.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.lblCurrentUser.Size = new System.Drawing.Size(73, 13);
+            this.lblCurrentUser.Size = new System.Drawing.Size(216, 17);
             this.lblCurrentUser.TabIndex = 2;
             this.lblCurrentUser.Text = "lblCurrentUser";
+            this.lblCurrentUser.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblCurrentUser.Click += new System.EventHandler(this.ClientArea_Click);
+            this.lblCurrentUser.DoubleClick += new System.EventHandler(this.FullScreenMode_Activate);
+            // 
+            // clientCommandsMenuStrip
+            // 
+            this.clientCommandsMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lockToolStripMenuItem,
+            this.shutdownToolStripMenuItem,
+            this.fullScreenToolStripMenuItem});
+            this.clientCommandsMenuStrip.Name = "clientCommandsMenuStrip";
+            this.clientCommandsMenuStrip.Size = new System.Drawing.Size(153, 92);
+            // 
+            // lockToolStripMenuItem
+            // 
+            this.lockToolStripMenuItem.Name = "lockToolStripMenuItem";
+            this.lockToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.lockToolStripMenuItem.Text = "Lock";
+            this.lockToolStripMenuItem.Click += new System.EventHandler(this.lockToolStripMenuItem_Click);
+            // 
+            // shutdownToolStripMenuItem
+            // 
+            this.shutdownToolStripMenuItem.Name = "shutdownToolStripMenuItem";
+            this.shutdownToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.shutdownToolStripMenuItem.Text = "Shutdown";
+            // 
+            // fullScreenToolStripMenuItem
+            // 
+            this.fullScreenToolStripMenuItem.Name = "fullScreenToolStripMenuItem";
+            this.fullScreenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fullScreenToolStripMenuItem.Text = "Full Screen";
+            this.fullScreenToolStripMenuItem.Click += new System.EventHandler(this.FullScreenMode_Activate);
             // 
             // ctrlScreenViewer
             // 
@@ -74,7 +114,10 @@
             this.Controls.Add(this.lblClientID);
             this.Name = "ctrlScreenViewer";
             this.Size = new System.Drawing.Size(292, 190);
+            this.Click += new System.EventHandler(this.ClientArea_Click);
+            this.DoubleClick += new System.EventHandler(this.FullScreenMode_Activate);
             ((System.ComponentModel.ISupportInitialize)(this.imgScreen)).EndInit();
+            this.clientCommandsMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -85,6 +128,10 @@
         public System.Windows.Forms.Label lblClientID;
         public System.Windows.Forms.PictureBox imgScreen;
         public System.Windows.Forms.Label lblCurrentUser;
+        private System.Windows.Forms.ContextMenuStrip clientCommandsMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem lockToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem shutdownToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fullScreenToolStripMenuItem;
 
     }
 }
