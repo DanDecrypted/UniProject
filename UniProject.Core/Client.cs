@@ -41,7 +41,9 @@ namespace UniProject.Core
         public delegate void ConnectedHandler(CustomEventArgs e);
         public delegate void DataSentHandler(CustomEventArgs e);
         public delegate void DataReceivedHandler(CustomEventArgs e);
+        public delegate void ServerConnetionDroppedHandler(CustomEventArgs e);
 
+        public event ServerConnetionDroppedHandler ServerConnectionDropped;
         public event ConnectedHandler ClientConnected;
         public event DataSentHandler DataSent;
         public event DataReceivedHandler DataReceived;
@@ -79,11 +81,14 @@ namespace UniProject.Core
                 if (ClientConnected != null)
                     ClientConnected(new CustomEventArgs(this.ServerAddress));
             }
-            catch
+            catch (Exception ex)
             {
-                Console.WriteLine("A Connection to the remote host could not be established... Retrying in 10 seconds.");
+                if (ServerConnectionDropped != null)
+                    ServerConnectionDropped(new CustomEventArgs("Retrying in 10 seconds..."));
+                Console.WriteLine(ex.ToString());
                 Thread.Sleep(10000);
-                InitializeSocket();
+                if (m_ShouldWork)
+                    InitializeSocket();
             }
         }
 
@@ -105,23 +110,31 @@ namespace UniProject.Core
 
         public void Send(byte[] data)
         {
-            int dataTotal = 0;
-            int dataSize = data.Length;
-            int dataLeft = dataSize;
-            int dataSent;
-            byte[] dataBuffer = new byte[4];
-            dataBuffer = BitConverter.GetBytes(dataSize);
-            int bytesSent = this.m_Socket.Send(dataBuffer);
-
-            while (dataTotal < dataSize)
+            try
             {
-                dataSent = this.m_Socket.Send(data, dataTotal, dataLeft, SocketFlags.None);
-                dataTotal += dataSent;
-                dataLeft -= dataSent;
-            }
+                int dataTotal = 0;
+                int dataSize = data.Length;
+                int dataLeft = dataSize;
+                int dataSent;
+                byte[] dataBuffer = new byte[4];
+                dataBuffer = BitConverter.GetBytes(dataSize);
+                int bytesSent = this.m_Socket.Send(dataBuffer);
 
-            if (DataSent != null)
-                DataSent(new CustomEventArgs(data));
+                while (dataTotal < dataSize)
+                {
+                    dataSent = this.m_Socket.Send(data, dataTotal, dataLeft, SocketFlags.None);
+                    dataTotal += dataSent;
+                    dataLeft -= dataSent;
+                }
+
+                if (DataSent != null)
+                    DataSent(new CustomEventArgs(data));
+            }
+            catch
+            {
+                if (ServerConnectionDropped != null)
+                    ServerConnectionDropped(new CustomEventArgs("Data not sent"));
+            }
         }
 
         private void Main()

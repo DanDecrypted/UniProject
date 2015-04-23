@@ -6,3 +6,11 @@ C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.ConsoleClie
 C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.ConsoleClient\bin\Debug\UniProject.Core.pdb
 C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.ConsoleClient\obj\Debug\UniProject.ConsoleClient.exe
 C:\Users\Dan\Documents\GitHub\UniProject2\UniProject.Core\UniProject.ConsoleClient\obj\Debug\UniProject.ConsoleClient.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ConsoleClient\bin\Debug\UniProject.ConsoleClient.exe.config
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ConsoleClient\bin\Debug\UniProject.ConsoleClient.exe
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ConsoleClient\bin\Debug\UniProject.ConsoleClient.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ConsoleClient\bin\Debug\UniProject.Core.dll
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ConsoleClient\bin\Debug\UniProject.Core.pdb
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ConsoleClient\obj\Debug\UniProject.ConsoleClient.csprojResolveAssemblyReference.cache
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ConsoleClient\obj\Debug\UniProject.ConsoleClient.exe
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.ConsoleClient\obj\Debug\UniProject.ConsoleClient.pdb

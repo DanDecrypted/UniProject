@@ -120,6 +120,7 @@ namespace UniProject.FormServer
                 ctrlScreenViewer screenViewer = new ctrlScreenViewer(e.ToString(), (ClientHandler)sender);
                 layoutPanel.Controls.Add(screenViewer);
                 SafeUpdateLog(String.Format("Client Connected: {0}", e.ToString()));
+                ((ClientHandler)sender).Send("Info.CurrentUser");
             }
         }
 
@@ -176,6 +177,14 @@ namespace UniProject.FormServer
             else
             {
                 label.Text = text;
+            }
+        }
+
+        private void btnShareWithAll_Click(object sender, EventArgs e)
+        {
+            foreach (ClientHandler client in this.server.Clients)
+            {
+                client.Send("WinAPI.ShowTeacherScreen");    
             }
         }
     }

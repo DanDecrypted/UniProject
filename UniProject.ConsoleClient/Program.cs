@@ -14,7 +14,7 @@ namespace UniProject.ConsoleClient
     {
         static void Main(string[] args)
         {
-            Client client = new Client("10.248.0.10", 101);
+            Client client = new Client("192.168.0.104", 101);
             client.ClientConnected += client_ClientConnected;
             client.DataReceived += client_DataReceived;
             client.Start();

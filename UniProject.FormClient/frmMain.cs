@@ -18,6 +18,7 @@ namespace UniProject.FormClient
         private Client m_Client;
         private Thread m_ScreenWorkerThread;
         private volatile bool m_ShouldWork;
+        private bool pauseSending = false;
         //Create a new bitmap.
         static Bitmap bmpScreenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
         Graphics gfxScreenshot = Graphics.FromImage(bmpScreenshot);
@@ -29,18 +30,38 @@ namespace UniProject.FormClient
             m_ScreenWorkerThread = new Thread(ScreenFeed);
             m_Client.ClientConnected += client_ClientConnected;
             m_Client.DataReceived += client_DataReceived;
+            m_Client.ServerConnectionDropped += m_Client_ServerConnectionDropped;
+        }
+
+        void m_Client_ServerConnectionDropped(CustomEventArgs e)
+        {
+            notifyIcon.ShowBalloonTip(1000, "Server Connection Dropped", e.ToString(), ToolTipIcon.Error);
+            pauseSending = true;
         }
 
         void client_ClientConnected(CustomEventArgs e)
         {
             notifyIcon.ShowBalloonTip(1000, "Client Connection Established", e.ToString(), ToolTipIcon.Info);
+            pauseSending = false;
         }
 
         void client_DataReceived(CustomEventArgs e)
         {
-            if (e.ToString() == "WinAPI.Lock")
+            string message = e.ToString();
+            string[] args = message.Split('.');
+            if (args[0] == "WinAPI")
             {
-                WinAPI.LockWorkStation();
+                if (args[1] == "Lock")
+                {
+                    frmFullScreen imageForm = new frmFullScreen();
+
+                    WinAPI.LockWorkStation();
+                }
+            }
+            else if (args[0] == "Info")
+            {
+                if (args[1] == "CurrentUser")
+                    this.m_Client.Send("Message=CurrentUser=" + System.Security.Principal.WindowsIdentity.GetCurrent().Name);
             }
         }
 
@@ -55,17 +76,20 @@ namespace UniProject.FormClient
         private void ScreenFeed()
         {
             MemoryStream ms = new MemoryStream();
-            while(m_ShouldWork)
+            while (m_ShouldWork)
             {
-                // Screen Feed Code
-                bmpScreenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-                using (Graphics g = Graphics.FromImage(bmpScreenshot))
+                if (!pauseSending)
                 {
-                    g.CopyFromScreen(Point.Empty, Point.Empty, Screen.PrimaryScreen.Bounds.Size);
+                    // Screen Feed Code
+                    bmpScreenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+                    using (Graphics g = Graphics.FromImage(bmpScreenshot))
+                    {
+                        g.CopyFromScreen(Point.Empty, Point.Empty, Screen.PrimaryScreen.Bounds.Size);
+                    }
+                    bmpScreenshot.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+                    m_Client.Send(ms.ToArray());
+                    Thread.Sleep(1000);
                 }
-                bmpScreenshot.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-                m_Client.Send(ms.ToArray());
-                Thread.Sleep(1000);
             }
         }
 
@@ -89,8 +113,9 @@ namespace UniProject.FormClient
             if (m_ScreenWorkerThread.IsAlive)
             {
                 m_ShouldWork = false;
-                Thread.Sleep(1000);
-                m_Client.Socket.Close();
+                m_ScreenWorkerThread.Join();
+                m_Client.Stop();
+                this.Close();
                 Application.Exit();
 
             }

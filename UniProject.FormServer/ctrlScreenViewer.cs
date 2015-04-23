@@ -29,13 +29,16 @@ namespace UniProject.FormServer
             this.lblCurrentUser.Text = client.CurrentUser;
         }
 
-        private void FullScreenMode_Activate(object sender, EventArgs e)
+        private void OneToOneMode_Activate(object sender, EventArgs e)
         {
             if (!OneToOneMode)
             {
                 OneToOneForm = new frmOneToOne("One to One session with: " + this.lblClientID.Text, this.client);
                 OneToOneForm.Show();
-                OneToOneForm.FormClosed += fullScreenForm_FormClosed;
+                OneToOneForm.FormClosed += oneToOneForm_FormClosed;
+                OneToOneForm.Bounds = Screen.PrimaryScreen.Bounds;
+                OneToOneForm.FormBorderStyle = FormBorderStyle.None;
+                OneToOneForm.WindowState = FormWindowState.Maximized;
                 OneToOneMode = true;
             }
         }
@@ -45,10 +48,9 @@ namespace UniProject.FormServer
             this.clientCommandsMenuStrip.Show(Cursor.Position);
         }
 
-        void fullScreenForm_FormClosed(object sender, FormClosedEventArgs e)
+        void oneToOneForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             OneToOneMode = false;
-            OneToOneForm.Close();
         }
 
         private void lockToolStripMenuItem_Click(object sender, EventArgs e)

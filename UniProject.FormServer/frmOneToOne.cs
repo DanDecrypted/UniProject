@@ -25,5 +25,15 @@ namespace UniProject.FormServer
             this.Text = title;
             this.client = client;
         }
+
+        private void btnExitFullscreen_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void frmOneToOne_Resize(object sender, EventArgs e)
+        {
+            this.btnExitFullscreen.Location = new Point((this.Width / 2) - (this.btnExitFullscreen.Width / 2), this.btnExitFullscreen.Location.Y);
+        }
     }
 }

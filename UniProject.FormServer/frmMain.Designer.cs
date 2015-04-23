@@ -37,7 +37,9 @@
             this.ctrlScreenViewer1 = new UniProject.FormServer.ctrlScreenViewer();
             this.ctrlScreenViewer2 = new UniProject.FormServer.ctrlScreenViewer();
             this.ctrlScreenViewer3 = new UniProject.FormServer.ctrlScreenViewer();
-            this.btnLockAll = new System.Windows.Forms.ToolStripLabel();
+            this.btnLockAll = new System.Windows.Forms.ToolStripDropDownButton();
+            this.lockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.shareScreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.layoutPanel.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -131,12 +133,29 @@
             // btnLockAll
             // 
             this.btnLockAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnLockAll.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lockToolStripMenuItem,
+            this.shareScreenToolStripMenuItem});
             this.btnLockAll.Image = ((System.Drawing.Image)(resources.GetObject("btnLockAll.Image")));
             this.btnLockAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLockAll.Name = "btnLockAll";
-            this.btnLockAll.Size = new System.Drawing.Size(88, 22);
-            this.btnLockAll.Text = "Lock All Clients";
+            this.btnLockAll.Size = new System.Drawing.Size(73, 22);
+            this.btnLockAll.Text = "All Clients";
             this.btnLockAll.Click += new System.EventHandler(this.btnLockAll_Click);
+            // 
+            // lockToolStripMenuItem
+            // 
+            this.lockToolStripMenuItem.Name = "lockToolStripMenuItem";
+            this.lockToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.lockToolStripMenuItem.Text = "Lock";
+            this.lockToolStripMenuItem.Click += new System.EventHandler(this.btnLockAll_Click);
+            // 
+            // shareScreenToolStripMenuItem
+            // 
+            this.shareScreenToolStripMenuItem.Name = "shareScreenToolStripMenuItem";
+            this.shareScreenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.shareScreenToolStripMenuItem.Text = "Share Screen";
+            this.shareScreenToolStripMenuItem.Click += new System.EventHandler(this.btnShareWithAll_Click);
             // 
             // frmMain
             // 
@@ -173,7 +192,9 @@
         private ctrlScreenViewer ctrlScreenViewer2;
         private ctrlScreenViewer ctrlScreenViewer3;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripLabel btnLockAll;
+        private System.Windows.Forms.ToolStripDropDownButton btnLockAll;
+        private System.Windows.Forms.ToolStripMenuItem lockToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem shareScreenToolStripMenuItem;
     }
 }
 

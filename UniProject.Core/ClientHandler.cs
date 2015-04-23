@@ -96,23 +96,30 @@ namespace UniProject.Core
 
         public void Send(byte[] data)
         {
-            if (m_Client.Connected)
+            try
             {
-                int dataTotal = 0;
-                int dataLeft = data.Length;
-                int dataSize = data.Length;
-                int dataSent;
-                byte[] dataBuffer = new byte[4];
-                dataBuffer = BitConverter.GetBytes(data.Length);
-                int bytesSent = m_Client.Client.Send(dataBuffer);
-                while (dataTotal < dataSize)
+                if (m_Client.Connected)
                 {
-                    dataSent = m_Client.Client.Send(data, dataTotal, dataLeft, SocketFlags.None);
-                    dataTotal += dataSent;
-                    dataLeft -= dataSent;
+                    int dataTotal = 0;
+                    int dataLeft = data.Length;
+                    int dataSize = data.Length;
+                    int dataSent;
+                    byte[] dataBuffer = new byte[4];
+                    dataBuffer = BitConverter.GetBytes(data.Length);
+                    int bytesSent = m_Client.Client.Send(dataBuffer);
+                    while (dataTotal < dataSize)
+                    {
+                        dataSent = m_Client.Client.Send(data, dataTotal, dataLeft, SocketFlags.None);
+                        dataTotal += dataSent;
+                        dataLeft -= dataSent;
+                    }
+                    if (DataSent != null)
+                        DataSent(this, new CustomEventArgs(data));
                 }
-                if (DataSent != null)
-                    DataSent(this, new CustomEventArgs(data));
+            }
+            catch
+            {
+                this.Stop();
             }
         }
 
