@@ -67,9 +67,9 @@
             // lblCurrentUser
             // 
             this.lblCurrentUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblCurrentUser.Location = new System.Drawing.Point(64, 2);
+            this.lblCurrentUser.Location = new System.Drawing.Point(109, 2);
             this.lblCurrentUser.Name = "lblCurrentUser";
-            this.lblCurrentUser.Size = new System.Drawing.Size(216, 17);
+            this.lblCurrentUser.Size = new System.Drawing.Size(171, 16);
             this.lblCurrentUser.TabIndex = 2;
             this.lblCurrentUser.Text = "lblCurrentUser";
             this.lblCurrentUser.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

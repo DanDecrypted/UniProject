@@ -12,9 +12,14 @@ namespace UniProject.FormClient
 {
     public partial class frmFullScreen : Form
     {
-        public frmFullScreen()
+        public frmFullScreen(Image image)
         {
             InitializeComponent();
+            pictureBox1.Image = image;
+            pictureBox1.BackColor = Color.Black;
+            pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
         }
     }
 }

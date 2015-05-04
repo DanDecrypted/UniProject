@@ -53,9 +53,16 @@ namespace UniProject.FormClient
             {
                 if (args[1] == "Lock")
                 {
-                    frmFullScreen imageForm = new frmFullScreen();
-
                     WinAPI.LockWorkStation();
+                }
+            }
+            else if (args[0] == "SoftAPI")
+            {
+                if (args[1] == "Lock")
+                {
+                    //Hacked in because creating a new form on this same thread locked the application ?
+                    Application.Run(new frmFullScreen(Properties.Resources.LockedScreen));
+                    // TODO lock keyboard and mouse input
                 }
             }
             else if (args[0] == "Info")
@@ -84,7 +91,14 @@ namespace UniProject.FormClient
                     bmpScreenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
                     using (Graphics g = Graphics.FromImage(bmpScreenshot))
                     {
-                        g.CopyFromScreen(Point.Empty, Point.Empty, Screen.PrimaryScreen.Bounds.Size);
+                        try
+                        {
+                            g.CopyFromScreen(Point.Empty, Point.Empty, Screen.PrimaryScreen.Bounds.Size);
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
                     }
                     bmpScreenshot.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
                     m_Client.Send(ms.ToArray());
@@ -100,6 +114,18 @@ namespace UniProject.FormClient
                 m_ShouldWork = false;
                 Thread.Sleep(1000);
                 m_Client.Socket.Close();
+            }
+        }
+
+        private void safeShowForm(Form form)
+        {
+            if (form.InvokeRequired)
+            {
+                form.Invoke(new Action<Form>(safeShowForm), form);
+            }
+            else
+            {
+                form.Show();
             }
         }
 

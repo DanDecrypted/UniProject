@@ -20,3 +20,4 @@ C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormClient\obj\Debug\UniProj
 C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormClient\obj\Debug\UniProject.FormClient.frmMain.resources
 C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormClient\obj\Debug\UniProject.FormClient.Properties.Resources.resources
 C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormClient\obj\Debug\UniProject.FormClient.csproj.GenerateResource.Cache
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormClient\obj\Debug\UniProject.FormClient.frmFullScreen.resources

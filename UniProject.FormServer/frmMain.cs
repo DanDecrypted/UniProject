@@ -130,11 +130,19 @@ namespace UniProject.FormServer
             this.layoutPanel.Controls.Clear();
         }
 
-        private void btnLockAll_Click(object sender, EventArgs e)
+        private void btnLockAllWinAPI_Click(object sender, EventArgs e)
         {
-            foreach(ClientHandler client in server.Clients)
+            foreach (ClientHandler client in this.server.Clients)
             {
                 client.Send("WinAPI.Lock");
+            }
+        }
+
+        private void btnLockAllSoftAPI_Click(object sender, EventArgs e)
+        {
+            foreach (ClientHandler client in this.server.Clients)
+            {
+                client.Send("SoftAPI.Lock");
             }
         }
 
