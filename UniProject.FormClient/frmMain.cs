@@ -26,21 +26,14 @@ namespace UniProject.FormClient
         Graphics gfxScreenshot = Graphics.FromImage(bmpScreenshot);
         public frmMain()
         {
-            if (WinAPI.IsProcessRunning("UniProject.FormClient"))
-            {
-                Application.Exit();
-            }
-            else
-            {
-                InitializeComponent();
-                m_Client = new Client("141.163.233.115", 101);
-                m_ShouldWork = true;
-                m_ScreenWorkerThread = new Thread(ScreenFeed);
-                m_Client.ClientConnected += client_ClientConnected;
-                m_Client.DataReceived += client_DataReceived;
-                m_Client.ServerConnectionDropped += m_Client_ServerConnectionDropped;
-                Initialised = true;
-            }
+            InitializeComponent();
+            m_Client = new Client("141.163.233.115", 101);
+            m_ShouldWork = true;
+            m_ScreenWorkerThread = new Thread(ScreenFeed);
+            m_Client.ClientConnected += client_ClientConnected;
+            m_Client.DataReceived += client_DataReceived;
+            m_Client.ServerConnectionDropped += m_Client_ServerConnectionDropped;
+            Initialised = true;
         }
 
         void m_Client_ServerConnectionDropped(CustomEventArgs e)
