@@ -36,6 +36,8 @@
             this.lockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.shutdownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oneToOneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.winAPIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.softToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.imgScreen)).BeginInit();
             this.clientCommandsMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -83,27 +85,44 @@
             this.shutdownToolStripMenuItem,
             this.oneToOneToolStripMenuItem});
             this.clientCommandsMenuStrip.Name = "clientCommandsMenuStrip";
-            this.clientCommandsMenuStrip.Size = new System.Drawing.Size(142, 70);
+            this.clientCommandsMenuStrip.Size = new System.Drawing.Size(153, 92);
             // 
             // lockToolStripMenuItem
             // 
+            this.lockToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.winAPIToolStripMenuItem,
+            this.softToolStripMenuItem});
             this.lockToolStripMenuItem.Name = "lockToolStripMenuItem";
-            this.lockToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.lockToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.lockToolStripMenuItem.Text = "Lock";
-            this.lockToolStripMenuItem.Click += new System.EventHandler(this.lockToolStripMenuItem_Click);
             // 
             // shutdownToolStripMenuItem
             // 
             this.shutdownToolStripMenuItem.Name = "shutdownToolStripMenuItem";
-            this.shutdownToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.shutdownToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.shutdownToolStripMenuItem.Text = "Shutdown";
+            this.shutdownToolStripMenuItem.Click += new System.EventHandler(this.shutdownToolStripMenuItem_Click);
             // 
             // oneToOneToolStripMenuItem
             // 
             this.oneToOneToolStripMenuItem.Name = "oneToOneToolStripMenuItem";
-            this.oneToOneToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.oneToOneToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.oneToOneToolStripMenuItem.Text = "One To One ";
             this.oneToOneToolStripMenuItem.Click += new System.EventHandler(this.OneToOneMode_Activate);
+            // 
+            // winAPIToolStripMenuItem
+            // 
+            this.winAPIToolStripMenuItem.Name = "winAPIToolStripMenuItem";
+            this.winAPIToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.winAPIToolStripMenuItem.Text = "WinAPI";
+            this.winAPIToolStripMenuItem.Click += new System.EventHandler(this.lockToolStripMenuItem_Click);
+            // 
+            // softToolStripMenuItem
+            // 
+            this.softToolStripMenuItem.Name = "softToolStripMenuItem";
+            this.softToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.softToolStripMenuItem.Text = "Soft";
+            this.softToolStripMenuItem.Click += new System.EventHandler(this.softLockToolStripMenuItem_Click);
             // 
             // ctrlScreenViewer
             // 
@@ -132,6 +151,8 @@
         private System.Windows.Forms.ToolStripMenuItem lockToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem shutdownToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem oneToOneToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem winAPIToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem softToolStripMenuItem;
 
     }
 }

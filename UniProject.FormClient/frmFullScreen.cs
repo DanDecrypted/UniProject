@@ -20,6 +20,7 @@ namespace UniProject.FormClient
             pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
+            Core.WinAPI.SetForegroundWindow(this.Handle);
         }
     }
 }

@@ -24,3 +24,4 @@ C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormServer\bin\Debug\UniProj
 C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormServer\obj\Debug\UniProject.FormServer.pdb
 C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormServer\obj\Debug\UniProject.FormServer.frmClientChat.resources
 C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormServer\obj\Debug\UniProject.FormServer.frmOneToOne.resources
+C:\Users\Dan\Documents\GitHub\UniProject\UniProject.FormServer\obj\Debug\UniProject.FormServer.frmStartProcess.resources

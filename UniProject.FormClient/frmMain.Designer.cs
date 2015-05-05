@@ -49,12 +49,12 @@
             this.notifyIconContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuExitClient});
             this.notifyIconContextMenu.Name = "notifyIconContextMenu";
-            this.notifyIconContextMenu.Size = new System.Drawing.Size(153, 48);
+            this.notifyIconContextMenu.Size = new System.Drawing.Size(93, 26);
             // 
             // mnuExitClient
             // 
             this.mnuExitClient.Name = "mnuExitClient";
-            this.mnuExitClient.Size = new System.Drawing.Size(152, 22);
+            this.mnuExitClient.Size = new System.Drawing.Size(92, 22);
             this.mnuExitClient.Text = "Exit";
             this.mnuExitClient.Click += new System.EventHandler(this.mnuExitClient_Click);
             // 
@@ -65,7 +65,7 @@
             this.ClientSize = new System.Drawing.Size(277, 190);
             this.Name = "frmMain";
             this.ShowInTaskbar = false;
-            this.Text = "Form1";
+            this.Text = "UniProject.FormClient";
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);

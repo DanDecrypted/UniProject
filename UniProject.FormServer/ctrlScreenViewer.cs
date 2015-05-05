@@ -57,5 +57,15 @@ namespace UniProject.FormServer
         {
             this.client.Send("WinAPI.Lock");
         }
+
+        private void softLockToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.client.Send("SoftAPI.Lock");
+        }
+
+        private void shutdownToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.client.Send("WinAPI.Shutdown");
+        }
     }
 }

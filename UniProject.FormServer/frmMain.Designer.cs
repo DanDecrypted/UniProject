@@ -30,18 +30,19 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.layoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.ctrlScreenViewer1 = new UniProject.FormServer.ctrlScreenViewer();
-            this.ctrlScreenViewer2 = new UniProject.FormServer.ctrlScreenViewer();
-            this.ctrlScreenViewer3 = new UniProject.FormServer.ctrlScreenViewer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnLockAll = new System.Windows.Forms.ToolStripDropDownButton();
             this.lockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.shareScreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.winAPIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.softToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txtLog = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.winAPIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.softToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.shutdownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openWebToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctrlScreenViewer1 = new UniProject.FormServer.ctrlScreenViewer();
+            this.ctrlScreenViewer2 = new UniProject.FormServer.ctrlScreenViewer();
+            this.ctrlScreenViewer3 = new UniProject.FormServer.ctrlScreenViewer();
             this.layoutPanel.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -63,27 +64,6 @@
             this.layoutPanel.Size = new System.Drawing.Size(913, 479);
             this.layoutPanel.TabIndex = 0;
             // 
-            // ctrlScreenViewer1
-            // 
-            this.ctrlScreenViewer1.Location = new System.Drawing.Point(3, 3);
-            this.ctrlScreenViewer1.Name = "ctrlScreenViewer1";
-            this.ctrlScreenViewer1.Size = new System.Drawing.Size(293, 190);
-            this.ctrlScreenViewer1.TabIndex = 0;
-            // 
-            // ctrlScreenViewer2
-            // 
-            this.ctrlScreenViewer2.Location = new System.Drawing.Point(302, 3);
-            this.ctrlScreenViewer2.Name = "ctrlScreenViewer2";
-            this.ctrlScreenViewer2.Size = new System.Drawing.Size(293, 190);
-            this.ctrlScreenViewer2.TabIndex = 1;
-            // 
-            // ctrlScreenViewer3
-            // 
-            this.ctrlScreenViewer3.Location = new System.Drawing.Point(601, 3);
-            this.ctrlScreenViewer3.Name = "ctrlScreenViewer3";
-            this.ctrlScreenViewer3.Size = new System.Drawing.Size(293, 190);
-            this.ctrlScreenViewer3.TabIndex = 2;
-            // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -99,7 +79,8 @@
             this.btnLockAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnLockAll.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lockToolStripMenuItem,
-            this.shareScreenToolStripMenuItem});
+            this.shutdownToolStripMenuItem,
+            this.openWebToolStripMenuItem});
             this.btnLockAll.Image = ((System.Drawing.Image)(resources.GetObject("btnLockAll.Image")));
             this.btnLockAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLockAll.Name = "btnLockAll";
@@ -115,12 +96,19 @@
             this.lockToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.lockToolStripMenuItem.Text = "Lock";
             // 
-            // shareScreenToolStripMenuItem
+            // winAPIToolStripMenuItem
             // 
-            this.shareScreenToolStripMenuItem.Name = "shareScreenToolStripMenuItem";
-            this.shareScreenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.shareScreenToolStripMenuItem.Text = "Share Screen";
-            this.shareScreenToolStripMenuItem.Click += new System.EventHandler(this.btnShareWithAll_Click);
+            this.winAPIToolStripMenuItem.Name = "winAPIToolStripMenuItem";
+            this.winAPIToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.winAPIToolStripMenuItem.Text = "WinAPI";
+            this.winAPIToolStripMenuItem.Click += new System.EventHandler(this.btnLockAllWinAPI_Click);
+            // 
+            // softToolStripMenuItem
+            // 
+            this.softToolStripMenuItem.Name = "softToolStripMenuItem";
+            this.softToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.softToolStripMenuItem.Text = "Soft";
+            this.softToolStripMenuItem.Click += new System.EventHandler(this.btnLockAllSoftAPI_Click);
             // 
             // splitContainer1
             // 
@@ -160,19 +148,40 @@
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // winAPIToolStripMenuItem
+            // shutdownToolStripMenuItem
             // 
-            this.winAPIToolStripMenuItem.Name = "winAPIToolStripMenuItem";
-            this.winAPIToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.winAPIToolStripMenuItem.Text = "WinAPI";
-            this.winAPIToolStripMenuItem.Click += new System.EventHandler(this.btnLockAllWinAPI_Click);
+            this.shutdownToolStripMenuItem.Name = "shutdownToolStripMenuItem";
+            this.shutdownToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.shutdownToolStripMenuItem.Text = "Shutdown";
+            this.shutdownToolStripMenuItem.Click += new System.EventHandler(this.shutdownToolStripMenuItem_Click);
             // 
-            // softToolStripMenuItem
+            // openWebToolStripMenuItem
             // 
-            this.softToolStripMenuItem.Name = "softToolStripMenuItem";
-            this.softToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.softToolStripMenuItem.Text = "Soft";
-            this.softToolStripMenuItem.Click += new System.EventHandler(this.btnLockAllSoftAPI_Click);
+            this.openWebToolStripMenuItem.Name = "openWebToolStripMenuItem";
+            this.openWebToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openWebToolStripMenuItem.Text = "Start Process";
+            this.openWebToolStripMenuItem.Click += new System.EventHandler(this.openWebToolStripMenuItem_Click);
+            // 
+            // ctrlScreenViewer1
+            // 
+            this.ctrlScreenViewer1.Location = new System.Drawing.Point(3, 3);
+            this.ctrlScreenViewer1.Name = "ctrlScreenViewer1";
+            this.ctrlScreenViewer1.Size = new System.Drawing.Size(293, 190);
+            this.ctrlScreenViewer1.TabIndex = 0;
+            // 
+            // ctrlScreenViewer2
+            // 
+            this.ctrlScreenViewer2.Location = new System.Drawing.Point(302, 3);
+            this.ctrlScreenViewer2.Name = "ctrlScreenViewer2";
+            this.ctrlScreenViewer2.Size = new System.Drawing.Size(293, 190);
+            this.ctrlScreenViewer2.TabIndex = 1;
+            // 
+            // ctrlScreenViewer3
+            // 
+            this.ctrlScreenViewer3.Location = new System.Drawing.Point(601, 3);
+            this.ctrlScreenViewer3.Name = "ctrlScreenViewer3";
+            this.ctrlScreenViewer3.Size = new System.Drawing.Size(293, 190);
+            this.ctrlScreenViewer3.TabIndex = 2;
             // 
             // frmMain
             // 
@@ -211,9 +220,10 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripDropDownButton btnLockAll;
         private System.Windows.Forms.ToolStripMenuItem lockToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem shareScreenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem winAPIToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem softToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem shutdownToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openWebToolStripMenuItem;
     }
 }
 

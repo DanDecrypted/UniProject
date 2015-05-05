@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace UniProject.Core
 {
-    public class ClientHandler
+    public class ClientHandler : IDisposable
     {
         public delegate void ClientDisconnectedHandler(object sender, CustomEventArgs e);
         public delegate void DataSentHandler(object sender, CustomEventArgs e);
@@ -58,6 +58,7 @@ namespace UniProject.Core
         {
             while (m_ShouldWork)
             {
+                byte[] data;
                 try
                 {
                     int dataTotal = 0;
@@ -67,7 +68,7 @@ namespace UniProject.Core
                         dataReceived = m_Client.Client.Receive(packetSize, 0, 4, 0);
                     int dataBuffer = BitConverter.ToInt32(packetSize, 0);
                     int dataLeft = dataBuffer;
-                    byte[] data = new byte[dataBuffer];
+                    data = new byte[dataBuffer];
                     while (dataTotal < dataBuffer)
                     {
                         if (m_Client.Client != null)
@@ -85,6 +86,10 @@ namespace UniProject.Core
                 {
                     // Connection Dropped
                     Stop();
+                }
+                catch (Exception)
+                {
+                    data = new byte[4];
                 }
             }
         }
@@ -135,6 +140,11 @@ namespace UniProject.Core
                 ClientDisconnected(this, new CustomEventArgs(Address.ToString()));
             m_ShouldWork = false;
             m_Client.Close();
+        }
+
+        public void Dispose()
+        {
+            Stop();
         }
     }
 }

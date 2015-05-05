@@ -98,7 +98,11 @@ namespace UniProject.Core
         {
             lock (m_Clients)
             {
-                m_Clients.Remove(client);
+                if (m_Clients.Contains(client))
+                {
+                    m_Clients.RemoveAt(m_Clients.IndexOf(client));
+                    client.Dispose();
+                }
                 Console.WriteLine("Currently Connected Clients {0}", m_Clients.Count);
             }
         }

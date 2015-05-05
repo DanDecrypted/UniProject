@@ -16,14 +16,25 @@ namespace UniProject.FormServer
     public partial class frmMain : Form
     {
         Server server;
+        frmStartProcess frmProcessAllClients;
         public frmMain()
         {
             InitializeComponent();
+            frmProcessAllClients = new frmStartProcess();
+            frmProcessAllClients.btnLaunch.Click += btnLaunch_Click;
             server = new Server(IPAddress.Any, 101);
             server.ClientConnected += server_ClientConnected;
             server.ClientDisconnected += server_ClientDisconnected;
             server.DataReceived += server_DataReceived;
             server.DataSent += server_DataSent;
+        }
+
+        void btnLaunch_Click(object sender, EventArgs e)
+        {
+            foreach (ClientHandler client in server.Clients)
+            {
+                client.Send("WinAPI.StartProcess." + frmProcessAllClients.txtProcess.Text + "|" + frmProcessAllClients.txtParams.Text);
+            }
         }
 
         void server_DataSent(object sender, CustomEventArgs e)
@@ -54,23 +65,30 @@ namespace UniProject.FormServer
                 }
                 else
                 {
-                    MemoryStream ms = new MemoryStream(e.GetBytes());
-                    Image imageFromStream = Image.FromStream(ms);
-                    foreach (ctrlScreenViewer screenViewer in layoutPanel.Controls)
+                    try
                     {
-                        if (screenViewer.lblClientID.Text == ((ClientHandler)sender).Address.ToString())
+                        MemoryStream ms = new MemoryStream(e.GetBytes());
+                        Image imageFromStream = Image.FromStream(ms);
+                        foreach (ctrlScreenViewer screenViewer in layoutPanel.Controls)
                         {
-                            if (screenViewer.OneToOneMode == false)
+                            if (screenViewer.lblClientID.Text == ((ClientHandler)sender).Address.ToString())
                             {
-                                screenViewer.imgScreen.Image = imageFromStream;
-                                screenViewer.imgScreen.SizeMode = PictureBoxSizeMode.Zoom;
-                            }
-                            else
-                            {
-                                screenViewer.OneToOneForm.ClientScreen.Image = imageFromStream;
-                                screenViewer.OneToOneForm.ClientScreen.SizeMode = PictureBoxSizeMode.Zoom;
+                                if (screenViewer.OneToOneMode == false)
+                                {
+                                    screenViewer.imgScreen.Image = imageFromStream;
+                                    screenViewer.imgScreen.SizeMode = PictureBoxSizeMode.Zoom;
+                                }
+                                else
+                                {
+                                    screenViewer.OneToOneForm.ClientScreen.Image = imageFromStream;
+                                    screenViewer.OneToOneForm.ClientScreen.SizeMode = PictureBoxSizeMode.Zoom;
+                                }
                             }
                         }
+                    } 
+                    catch (Exception)
+                    {
+                        // Image received was corrupt / invalid
                     }
                 }
             }
@@ -132,17 +150,17 @@ namespace UniProject.FormServer
 
         private void btnLockAllWinAPI_Click(object sender, EventArgs e)
         {
-            foreach (ClientHandler client in this.server.Clients)
+            for (int i = this.server.Clients.Count; i >= 0; i--)
             {
-                client.Send("WinAPI.Lock");
+                this.server.Clients[i].Send("WinAPI.Lock");
             }
         }
 
         private void btnLockAllSoftAPI_Click(object sender, EventArgs e)
         {
-            foreach (ClientHandler client in this.server.Clients)
+            for (int i = this.server.Clients.Count; i > 0; i--)
             {
-                client.Send("SoftAPI.Lock");
+                this.server.Clients[i - 1].Send("SoftAPI.Lock");
             }
         }
 
@@ -188,12 +206,17 @@ namespace UniProject.FormServer
             }
         }
 
-        private void btnShareWithAll_Click(object sender, EventArgs e)
+        private void shutdownToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (ClientHandler client in this.server.Clients)
+            for (int i = this.server.Clients.Count; i >= 0; i--)
             {
-                client.Send("WinAPI.ShowTeacherScreen");    
+                this.server.Clients[i].Send("WinAPI.Shutdown");
             }
+        }
+
+        private void openWebToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmProcessAllClients.Show();
         }
     }
 }
