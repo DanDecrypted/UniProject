@@ -27,7 +27,7 @@ namespace UniProject.FormClient
         public frmMain()
         {
             InitializeComponent();
-            m_Client = new Client("141.163.233.115", 101);
+            m_Client = new Client("141.163.83.82", 101);
             m_ShouldWork = true;
             m_ScreenWorkerThread = new Thread(ScreenFeed);
             m_Client.ClientConnected += client_ClientConnected;
